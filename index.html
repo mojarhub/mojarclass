@@ -1,0 +1,1335 @@
+<!DOCTYPE html>
+<html lang="bn" data-theme="light">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Ronaldo — Online Class Dashboard</title>
+    <script src="https://cdn.jsdelivr.net/npm/@tailwindcss/browser@4"></script>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&family=Noto+Sans+Bengali:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+    <style>
+        * { font-family: 'Noto Sans Bengali', 'Inter', sans-serif; -webkit-user-select: none; user-select: none; }
+
+        /* ===== THEME VARIABLES ===== */
+        :root[data-theme="light"] {
+            --bg-primary: #f8fafc;
+            --bg-secondary: #ffffff;
+            --bg-card: #ffffff;
+            --bg-card-hover: #f1f5f9;
+            --bg-input: #f1f5f9;
+            --bg-header: rgba(255,255,255,0.85);
+            --bg-overlay: rgba(0,0,0,0.1);
+            --border-primary: #e2e8f0;
+            --border-secondary: #cbd5e1;
+            --text-primary: #0f172a;
+            --text-secondary: #334155;
+            --text-muted: #64748b;
+            --text-faint: #94a3b8;
+            --accent: #0ea5e9;
+            --accent-bg: rgba(14,165,233,0.1);
+            --accent-border: rgba(14,165,233,0.3);
+            --stat-bg: #f1f5f9;
+            --stat-border: #e2e8f0;
+            --playlist-bg: #f8fafc;
+            --playlist-border: #e2e8f0;
+            --lesson-hover: rgba(14,165,233,0.06);
+            --lesson-active: rgba(14,165,233,0.1);
+            --scrollbar-track: #f1f5f9;
+            --scrollbar-thumb: #cbd5e1;
+            --shadow: 0 1px 3px rgba(0,0,0,0.08);
+            --shadow-lg: 0 10px 30px rgba(0,0,0,0.08);
+            --login-bg: linear-gradient(135deg, #e0f2fe, #f0f9ff, #e8f5e9);
+            --login-box-bg: linear-gradient(135deg, rgba(255,255,255,0.95), rgba(248,250,252,0.98));
+            --login-box-border: #cbd5e1;
+            --login-box-shadow: 0 25px 60px rgba(0,0,0,0.1);
+            --controls-bg: rgba(248,250,252,0.95);
+            --controls-border: #e2e8f0;
+            --custom-btn-bg: #f1f5f9;
+            --custom-btn-border: #e2e8f0;
+            --custom-btn-color: #334155;
+            --progress-bg: #e2e8f0;
+            --progress-fill: linear-gradient(90deg, #0ea5e9, #6366f1);
+            --changelog-bg: linear-gradient(135deg, #ffffff, #f8fafc);
+            --changelog-entry-bg: rgba(241,245,249,0.8);
+            --changelog-entry-border: #e2e8f0;
+            --badge-coming-bg: linear-gradient(135deg, #fef3c722, #fef08a22);
+            --badge-coming-border: #fde04755;
+            --badge-coming-color: #a16207;
+        }
+
+        :root[data-theme="dark"] {
+            --bg-primary: #0f172a;
+            --bg-secondary: #1e293b;
+            --bg-card: rgba(30,41,59,0.6);
+            --bg-card-hover: rgba(30,41,59,0.8);
+            --bg-input: #0f172a;
+            --bg-header: rgba(15,23,42,0.85);
+            --bg-overlay: rgba(0,0,0,0.3);
+            --border-primary: #1e293b;
+            --border-secondary: #334155;
+            --text-primary: #e2e8f0;
+            --text-secondary: #cbd5e1;
+            --text-muted: #94a3b8;
+            --text-faint: #64748b;
+            --accent: #38bdf8;
+            --accent-bg: rgba(56,189,248,0.1);
+            --accent-border: rgba(56,189,248,0.3);
+            --stat-bg: linear-gradient(135deg, rgba(30,41,59,0.8), rgba(30,41,59,0.4));
+            --stat-border: #1e293b;
+            --playlist-bg: rgba(30,41,59,0.5);
+            --playlist-border: rgba(51,65,85,0.5);
+            --lesson-hover: rgba(56,189,248,0.08);
+            --lesson-active: rgba(56,189,248,0.15);
+            --scrollbar-track: #1e293b;
+            --scrollbar-thumb: #334155;
+            --shadow: 0 1px 3px rgba(0,0,0,0.3);
+            --shadow-lg: 0 10px 30px rgba(0,0,0,0.35);
+            --login-bg: linear-gradient(135deg, #0f172a, #1e293b);
+            --login-box-bg: linear-gradient(135deg, rgba(30,41,59,0.9), rgba(15,23,42,0.95));
+            --login-box-border: #334155;
+            --login-box-shadow: 0 25px 60px rgba(0,0,0,0.5);
+            --controls-bg: rgba(15,23,42,0.85);
+            --controls-border: #1e293b;
+            --custom-btn-bg: #0b1220;
+            --custom-btn-border: #1f2937;
+            --custom-btn-color: #cbd5e1;
+            --progress-bg: #334155;
+            --progress-fill: linear-gradient(90deg, #38bdf8, #818cf8);
+            --changelog-bg: linear-gradient(135deg, #1e293b, #0f172a);
+            --changelog-entry-bg: rgba(30,41,59,0.6);
+            --changelog-entry-border: #1e293b;
+            --badge-coming-bg: linear-gradient(135deg, #f59e0b22, #f9731622);
+            --badge-coming-border: #f59e0b55;
+            --badge-coming-color: #fbbf24;
+        }
+
+        body { background: var(--bg-primary); color: var(--text-primary); transition: background 0.3s, color 0.3s; }
+
+        .view { display: none; opacity: 0; transform: translateY(18px); }
+        .view.active { display: block; animation: fadeSlideIn 0.35s ease forwards; }
+        @keyframes fadeSlideIn { to { opacity: 1; transform: translateY(0); } }
+
+        .tile { transition: transform 0.22s ease, box-shadow 0.22s ease; cursor: pointer; }
+        .tile:hover { transform: translateY(-6px) scale(1.02); box-shadow: var(--shadow-lg); }
+
+        .video-wrapper { position: relative; padding-bottom: 56.25%; height: 0; overflow: hidden; border-radius: 12px; background: #000; }
+        .video-wrapper iframe { position: absolute; top: 0; left: 0; width: 100%; height: 100%; border: 0; }
+
+        /* === Custom Player Masks === */
+        .player-shield { position: relative; border-radius: 12px; overflow: hidden; background: #000; }
+        .mask-top { position: absolute; top: 0; left: 0; right: 0; height: 56px; background: linear-gradient(180deg, #000 0%, #000 65%, rgba(0,0,0,0.6) 85%, transparent 100%); z-index: 10; pointer-events: auto; cursor: default; }
+        .mask-top-left { position: absolute; top: 0; left: 0; width: 200px; height: 52px; background: #000; z-index: 11; pointer-events: auto; cursor: default; }
+        .mask-top-right { position: absolute; top: 0; right: 0; width: 280px; height: 52px; background: #000; z-index: 11; pointer-events: auto; cursor: default; }
+        .mask-bottom-right { position: absolute; bottom: 36px; right: 0; width: 200px; height: 50px; z-index: 10; pointer-events: auto; cursor: default; }
+        .mask-bottom-left { position: absolute; bottom: 36px; left: 0; width: 60px; height: 50px; z-index: 10; pointer-events: auto; cursor: default; }
+        .player-brand { position: absolute; top: 0; left: 0; right: 0; height: 42px; z-index: 12; background: linear-gradient(135deg, #0f172a, #1e293b); display: flex; align-items: center; padding: 0 14px; gap: 8px; border-bottom: 1px solid rgba(56,189,248,0.2); pointer-events: auto; cursor: default; }
+        .player-brand .brand-dot { width: 7px; height: 7px; border-radius: 50%; background: #22c55e; flex-shrink: 0; }
+        .player-brand .brand-text { font-size: 12px; color: #94a3b8; font-weight: 600; letter-spacing: 0.5px; }
+        .player-brand .brand-badge { margin-left: auto; font-size: 10px; color: #64748b; background: rgba(51,65,85,0.5); padding: 2px 8px; border-radius: 10px; }
+        .player-shield:fullscreen .mask-top, .player-shield:fullscreen .mask-top-left, .player-shield:fullscreen .mask-top-right, .player-shield:fullscreen .mask-bottom-right, .player-shield:fullscreen .mask-bottom-left, .player-shield:fullscreen .player-brand { display: none; }
+
+        .breadcrumb { display: flex; align-items: center; gap: 6px; flex-wrap: wrap; }
+        .breadcrumb span { color: var(--text-muted); font-size: 13px; }
+        .breadcrumb .sep { color: var(--text-faint); }
+        .breadcrumb .current { color: var(--text-primary); font-weight: 600; }
+        .breadcrumb .link { color: var(--accent); cursor: pointer; transition: color 0.2s; }
+        .breadcrumb .link:hover { opacity: 0.8; }
+
+        ::-webkit-scrollbar { width: 6px; }
+        ::-webkit-scrollbar-track { background: var(--scrollbar-track); }
+        ::-webkit-scrollbar-thumb { background: var(--scrollbar-thumb); border-radius: 3px; }
+
+        .topic-item { transition: all 0.2s ease; border-left: 3px solid transparent; }
+        .topic-item:hover { background: var(--lesson-hover); border-left-color: var(--accent); }
+        .topic-item.active-topic { background: var(--lesson-active); border-left-color: var(--accent); }
+
+        .skull-anim { display: inline-block; font-size: 26px; animation: skullPulse 2s ease-in-out infinite; filter: drop-shadow(0 0 6px rgba(239,68,68,0.5)); }
+        @keyframes skullPulse {
+            0%, 100% { transform: scale(1) rotate(0deg); filter: drop-shadow(0 0 6px rgba(239,68,68,0.5)); }
+            25% { transform: scale(1.15) rotate(-5deg); filter: drop-shadow(0 0 12px rgba(239,68,68,0.8)); }
+            50% { transform: scale(1.05) rotate(0deg); filter: drop-shadow(0 0 18px rgba(168,85,247,0.7)); }
+            75% { transform: scale(1.15) rotate(5deg); filter: drop-shadow(0 0 12px rgba(56,189,248,0.8)); }
+        }
+
+        .gradient-text { background: linear-gradient(135deg, #0ea5e9, #6366f1, #a855f7); -webkit-background-clip: text; -webkit-text-fill-color: transparent; background-clip: text; }
+        .pulse-dot { width: 8px; height: 8px; border-radius: 50%; background: #22c55e; animation: pulse 2s infinite; }
+        @keyframes pulse { 0%, 100% { box-shadow: 0 0 0 0 rgba(34,197,94,0.5); } 50% { box-shadow: 0 0 0 6px rgba(34,197,94,0); } }
+
+        .icon-bg { width: 56px; height: 56px; border-radius: 14px; display: flex; align-items: center; justify-content: center; font-size: 26px; }
+
+        .stat-card { background: var(--stat-bg); border: 1px solid var(--stat-border); border-radius: 12px; padding: 16px 20px; box-shadow: var(--shadow); }
+
+        .lesson-card { transition: all 0.2s ease; cursor: pointer; }
+        .lesson-card:hover { background: var(--lesson-hover); }
+        .lesson-card.now-playing { background: var(--lesson-active); border-color: var(--accent) !important; }
+
+        .coming-soon-badge { background: var(--badge-coming-bg); border: 1px dashed var(--badge-coming-border); color: var(--badge-coming-color); font-size: 12px; padding: 4px 10px; border-radius: 20px; }
+
+        /* === Custom Player Overlay + Controls === */
+        .click-shield { position: absolute; inset: 0; z-index: 5; background: transparent; }
+        .big-play { position: absolute; z-index: 6; left: 50%; top: 50%; transform: translate(-50%, -50%); width: 70px; height: 70px; border-radius: 9999px; background: rgba(2,6,23,0.75); border: 1px solid rgba(56,189,248,0.35); display: flex; align-items: center; justify-content: center; font-size: 26px; color: #e2e8f0; box-shadow: 0 10px 30px rgba(0,0,0,0.35); cursor: pointer; }
+        .big-play:hover { background: rgba(2,6,23,0.9); }
+
+        .custom-controls input[type="range"] { -webkit-appearance: none; appearance: none; height: 4px; background: var(--progress-bg); border-radius: 9999px; outline: none; }
+        .custom-controls input[type="range"]::-webkit-slider-thumb { -webkit-appearance: none; appearance: none; width: 12px; height: 12px; border-radius: 9999px; background: var(--accent); border: 2px solid var(--bg-primary); box-shadow: 0 0 0 2px var(--accent-bg); }
+        .custom-controls input[type="range"]::-moz-range-thumb { width: 12px; height: 12px; border-radius: 9999px; background: var(--accent); border: 2px solid var(--bg-primary); }
+
+        .custom-btn { display: inline-flex; align-items: center; justify-content: center; gap: 6px; height: 36px; padding: 0 12px; border-radius: 10px; border: 1px solid var(--custom-btn-border); background: var(--custom-btn-bg); color: var(--custom-btn-color); cursor: pointer; }
+        .custom-btn:hover { opacity: 0.8; }
+        .custom-btn svg { width: 16px; height: 16px; }
+
+        /* === LOGIN SCREEN === */
+        .login-container { min-height: 100vh; display: flex; align-items: center; justify-content: center; padding: 20px; background: var(--login-bg); }
+        .login-box { background: var(--login-box-bg); border: 1px solid var(--login-box-border); border-radius: 24px; padding: 40px 32px; width: 100%; max-width: 420px; box-shadow: var(--login-box-shadow); }
+        .code-input { width: 100%; padding: 14px 18px; background: var(--bg-input); border: 2px solid var(--border-secondary); border-radius: 14px; color: var(--text-primary); font-size: 22px; font-weight: 700; text-align: center; letter-spacing: 8px; outline: none; transition: border-color 0.3s; -webkit-user-select: text; user-select: text; }
+        .code-input:focus { border-color: var(--accent); box-shadow: 0 0 0 4px var(--accent-bg); }
+        .code-input.error { border-color: #ef4444; animation: shake 0.4s ease; }
+        .code-input.success { border-color: #22c55e; box-shadow: 0 0 0 4px rgba(34,197,94,0.2); }
+        @keyframes shake { 0%, 100% { transform: translateX(0); } 20% { transform: translateX(-8px); } 40% { transform: translateX(8px); } 60% { transform: translateX(-6px); } 80% { transform: translateX(6px); } }
+        .login-btn { width: 100%; padding: 14px; background: linear-gradient(135deg, #0ea5e9, #6366f1); border: none; border-radius: 14px; color: white; font-size: 16px; font-weight: 700; cursor: pointer; transition: all 0.3s; }
+        .login-btn:hover { transform: translateY(-2px); box-shadow: 0 8px 24px rgba(14,165,233,0.3); }
+        .login-btn:disabled { opacity: 0.5; cursor: not-allowed; transform: none; }
+        .error-msg { color: #ef4444; font-size: 13px; text-align: center; margin-top: 8px; min-height: 20px; }
+        .access-badge { display: inline-flex; align-items: center; gap: 6px; background: rgba(34,197,94,0.15); border: 1px solid rgba(34,197,94,0.3); color: #16a34a; font-size: 12px; font-weight: 600; padding: 4px 12px; border-radius: 20px; }
+        [data-theme="dark"] .access-badge { color: #4ade80; }
+        .logout-btn { display: inline-flex; align-items: center; gap: 4px; background: rgba(239,68,68,0.1); border: 1px solid rgba(239,68,68,0.25); color: #dc2626; font-size: 11px; font-weight: 600; padding: 4px 10px; border-radius: 12px; cursor: pointer; transition: all 0.2s; }
+        [data-theme="dark"] .logout-btn { color: #f87171; background: rgba(239,68,68,0.15); border-color: rgba(239,68,68,0.3); }
+        .logout-btn:hover { opacity: 0.8; }
+
+        /* === PROGRESS BAR === */
+        .progress-bar-bg { width: 100%; height: 6px; background: var(--progress-bg); border-radius: 999px; overflow: hidden; }
+        .progress-bar-fill { height: 100%; background: var(--progress-fill); border-radius: 999px; transition: width 0.5s ease; min-width: 0; }
+        .progress-text { font-size: 11px; color: var(--text-muted); font-weight: 600; }
+
+        /* === THEME TOGGLE === */
+        .theme-toggle { display: inline-flex; align-items: center; justify-content: center; width: 36px; height: 36px; border-radius: 10px; border: 1px solid var(--border-secondary); background: var(--bg-card); cursor: pointer; font-size: 18px; transition: all 0.2s; }
+        .theme-toggle:hover { opacity: 0.8; transform: scale(1.05); }
+
+        /* === SESSION TIMER === */
+        .session-timer { display: inline-flex; align-items: center; gap: 5px; font-size: 11px; font-weight: 600; color: var(--text-muted); background: var(--stat-bg); border: 1px solid var(--stat-border); padding: 4px 10px; border-radius: 10px; }
+        .session-timer .timer-icon { font-size: 13px; }
+
+        /* === HEADER === */
+        .main-header { background: var(--bg-header); border-bottom: 1px solid var(--border-primary); backdrop-filter: blur(12px); }
+
+        /* === SUBJECT CARD === */
+        .subject-card { background: var(--bg-card); border: 1px solid var(--border-primary); border-radius: 16px; box-shadow: var(--shadow); }
+        [data-theme="dark"] .subject-card { background: var(--bg-card); border-color: var(--border-secondary); }
+
+        /* === TOPIC CARD === */
+        .topic-card { background: var(--bg-card); border: 1px solid var(--border-primary); border-radius: 16px; box-shadow: var(--shadow); }
+        [data-theme="dark"] .topic-card { background: var(--bg-card); border-color: var(--border-secondary); }
+
+        /* === FOOTER === */
+        .main-footer { border-top: 1px solid var(--border-primary); background: var(--bg-secondary); }
+        [data-theme="dark"] .main-footer { background: transparent; }
+    </style>
+</head>
+<body class="min-h-screen" oncontextmenu="return false;">
+
+    <!-- ===== LOGIN VIEW ===== -->
+    <div id="viewLogin" class="view active">
+        <div class="login-container">
+            <div class="login-box">
+                <div class="text-center mb-8">
+                    <span class="skull-anim">💀</span>
+                    <h1 class="text-2xl font-extrabold mt-3">Ronaldo</h1>
+                    <p style="color:var(--text-muted)" class="text-sm mt-2">ক্লাসে প্রবেশ করতে আপনার এক্সেস কোড দিন</p>
+                </div>
+                <div class="mb-4">
+                    <label style="color:var(--text-muted)" class="text-xs font-medium mb-2 block text-center">৬-অক্ষরের এক্সেস কোড</label>
+                    <input type="text" id="codeInput" class="code-input" inputmode="text" maxlength="6" placeholder="● ● ● ● ● ●" autocomplete="off" spellcheck="false">
+                    <div id="errorMsg" class="error-msg"></div>
+                </div>
+                <button id="loginBtn" class="login-btn" onclick="handleLogin()">🔓 প্রবেশ করুন</button>
+                <div class="text-center mt-6">
+                    <p style="color:var(--text-faint)" class="text-xs">কোড নেই? দূরে যাই মর।</p>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- ===== HEADER ===== -->
+    <header id="mainHeader" class="main-header sticky top-0 z-50" style="display:none;">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 py-3 flex items-center justify-between">
+            <div class="flex items-center gap-3 cursor-pointer" onclick="goHome()">
+                <span class="skull-anim">💀</span>
+                <span class="text-lg font-bold tracking-tight hidden sm:block">Ronaldo</span>
+            </div>
+            <div id="headerBreadcrumb" class="breadcrumb hidden sm:flex"></div>
+            <div class="flex items-center gap-2">
+                <div id="sessionTimer" class="session-timer hidden sm:flex">
+                    <span class="timer-icon">⏱️</span>
+                    <span id="timerDisplay">০০:০০</span>
+                </div>
+                <button class="theme-toggle" onclick="toggleTheme()" id="themeBtn" title="থিম পরিবর্তন">🌙</button>
+                <div id="accessInfo" class="access-badge hidden sm:flex">
+                    <span>🔑</span>
+                    <span id="accessLabel"></span>
+                </div>
+                <button class="logout-btn" onclick="showChangelog()" style="background:var(--accent-bg); border-color:var(--accent-border); color:var(--accent);">
+                    📋
+                </button>
+                <button class="logout-btn" onclick="handleLogout()">🚪</button>
+            </div>
+        </div>
+    </header>
+
+    <!-- ===== HOME VIEW ===== -->
+    <div id="viewHome" class="view">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 py-8">
+            <div class="mb-10">
+                <h1 class="text-3xl sm:text-4xl font-extrabold mb-2">স্বাগতম! 👋</h1>
+                <p style="color:var(--text-muted)" class="text-lg" id="welcomeMsg">একটি বিষয় বেছে নিন এবং শেখা শুরু করুন।</p>
+            </div>
+
+            <div class="grid grid-cols-2 sm:grid-cols-4 gap-3 sm:gap-4 mb-10">
+                <div class="stat-card">
+                    <div class="text-2xl font-bold gradient-text" id="statSubjects">0</div>
+                    <div class="text-xs mt-1" style="color:var(--text-muted)">বিষয়সমূহ</div>
+                </div>
+                <div class="stat-card">
+                    <div class="text-2xl font-bold gradient-text" id="statTopics">0</div>
+                    <div class="text-xs mt-1" style="color:var(--text-muted)">অধ্যায়</div>
+                </div>
+                <div class="stat-card">
+                    <div class="text-2xl font-bold gradient-text" id="statLessons">0</div>
+                    <div class="text-xs mt-1" style="color:var(--text-muted)">ভিডিও পাঠ</div>
+                </div>
+                <div class="stat-card">
+                    <div class="flex items-center gap-2">
+                        <div class="pulse-dot"></div>
+                        <div class="text-2xl font-bold text-green-500">Active</div>
+                    </div>
+                    <div class="text-xs mt-1" style="color:var(--text-muted)">লাইভ প্ল্যাটফর্ম</div>
+                </div>
+            </div>
+
+            <h2 class="text-xl font-bold mb-5 flex items-center gap-2">
+                <span class="w-1 h-6 rounded-full" style="background:var(--accent)"></span> বিষয়সমূহ
+            </h2>
+            <div id="subjectGrid" class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4 sm:gap-5"></div>
+        </div>
+    </div>
+
+    <!-- ===== TOPICS VIEW ===== -->
+    <div id="viewTopics" class="view">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 py-8">
+            <button onclick="goHome()" class="flex items-center gap-2 transition mb-6 text-sm font-medium" style="color:var(--accent)">
+                <svg class="w-4 h-4" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M15 19l-7-7 7-7"/></svg>
+                সকল বিষয়
+            </button>
+            <div class="flex items-center gap-4 mb-8">
+                <div id="topicSubjectIcon" class="icon-bg text-3xl"></div>
+                <div>
+                    <h1 id="topicSubjectTitle" class="text-2xl sm:text-3xl font-extrabold"></h1>
+                    <p id="topicSubjectDesc" style="color:var(--text-muted)" class="mt-1"></p>
+                </div>
+            </div>
+            <!-- Subject Progress -->
+            <div id="subjectProgressArea" class="mb-6 p-4 rounded-xl" style="background:var(--stat-bg); border:1px solid var(--stat-border);">
+                <div class="flex items-center justify-between mb-2">
+                    <span class="text-sm font-semibold">📊 সামগ্রিক অগ্রগতি</span>
+                    <span class="progress-text" id="subjectProgressText">0%</span>
+                </div>
+                <div class="progress-bar-bg">
+                    <div class="progress-bar-fill" id="subjectProgressBar" style="width:0%"></div>
+                </div>
+            </div>
+            <div id="topicGrid" class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4 sm:gap-5"></div>
+        </div>
+    </div>
+
+    <!-- ===== VIDEO VIEW ===== -->
+    <div id="viewVideo" class="view">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 py-6">
+            <button id="backToTopicsBtn" class="flex items-center gap-2 transition mb-5 text-sm font-medium" style="color:var(--accent)">
+                <svg class="w-4 h-4" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M15 19l-7-7 7-7"/></svg>
+                অধ্যায় তালিকা
+            </button>
+
+            <div class="flex flex-col lg:flex-row gap-6">
+                <div class="flex-1 min-w-0">
+                    <div class="player-shield">
+                        <div class="video-wrapper" id="videoContainer">
+                            <div id="ytPlayerMount" class="absolute inset-0"></div>
+                            <div class="click-shield" id="clickShield"></div>
+                            <button id="bigPlayBtn" class="big-play" aria-label="Play" aria-pressed="false">▶</button>
+                        </div>
+                        <div class="mask-top"></div>
+                        <div class="mask-top-left"></div>
+                        <div class="mask-top-right"></div>
+                        <div class="mask-bottom-right"></div>
+                        <div class="mask-bottom-left"></div>
+                        <div class="player-brand">
+                            <div class="brand-dot"></div>
+                            <span class="brand-text">Ronaldo Player</span>
+                            <span class="brand-badge">🔒 Protected</span>
+                        </div>
+                        <div class="custom-controls backdrop-blur rounded-b-xl px-3 sm:px-4 py-2.5 flex items-center gap-2 sm:gap-3" style="background:var(--controls-bg); border:1px solid var(--controls-border);">
+                            <button id="btnPlayPause" class="custom-btn" title="Play/Pause">
+                                <svg viewBox="0 0 24 24" fill="currentColor"><path d="M8 5v14l11-7z"/></svg>
+                                <span class="hidden sm:inline" id="ppLabel">Play</span>
+                            </button>
+                            <input id="seekBar" type="range" min="0" max="100" value="0" class="flex-1">
+                            <div class="text-xs w-20 text-right tabular-nums" style="color:var(--text-muted)" id="timeLabel">0:00 / 0:00</div>
+                            <input id="volBar" type="range" min="0" max="100" value="80" class="w-24 hidden sm:block">
+                            <select id="speedSel" class="custom-btn h-8 text-xs">
+                                <option value="0.75">0.75x</option>
+                                <option value="1" selected>1x</option>
+                                <option value="1.25">1.25x</option>
+                                <option value="1.5">1.5x</option>
+                                <option value="1.75">1.75x</option>
+                                <option value="2">2x</option>
+                            </select>
+                            <button id="btnFullscreen" class="custom-btn" title="Fullscreen">
+                                <svg viewBox="0 0 24 24" fill="currentColor"><path d="M7 14H5v5h5v-2H7v-3zm0-4h3V7h2V5H5v5h2zm10 9h-3v2h5v-5h-2v3zm0-14V5h-5v2h3v3h2V5z"/></svg>
+                            </button>
+                        </div>
+                    </div>
+                    <div class="mt-4">
+                        <h2 id="videoTitle" class="text-xl sm:text-2xl font-bold"></h2>
+                        <p id="videoMeta" style="color:var(--text-muted)" class="text-sm mt-1"></p>
+                    </div>
+                    <div class="flex items-center justify-between mt-5 gap-3">
+                        <button id="prevLessonBtn" onclick="prevLesson()" class="flex items-center gap-2 px-4 py-2.5 rounded-xl text-sm font-medium transition" style="background:var(--bg-card); border:1px solid var(--border-primary);">
+                            <svg class="w-4 h-4" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M15 19l-7-7 7-7"/></svg>
+                            পূর্ববর্তী
+                        </button>
+                        <button id="nextLessonBtn" onclick="nextLesson()" class="flex items-center gap-2 px-4 py-2.5 bg-sky-600 hover:bg-sky-500 rounded-xl text-sm font-medium transition text-white">
+                            পরবর্তী
+                            <svg class="w-4 h-4" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M9 5l7 7-7 7"/></svg>
+                        </button>
+                    </div>
+                </div>
+
+                <div class="w-full lg:w-80 shrink-0">
+                    <div class="rounded-xl overflow-hidden" style="background:var(--playlist-bg); border:1px solid var(--playlist-border);">
+                        <div class="px-4 py-3" style="border-bottom:1px solid var(--playlist-border);">
+                            <h3 id="playlistTitle" class="font-semibold text-sm"></h3>
+                            <p id="playlistCount" class="text-xs mt-0.5" style="color:var(--text-muted)"></p>
+                            <!-- Topic Progress -->
+                            <div class="mt-2">
+                                <div class="progress-bar-bg">
+                                    <div class="progress-bar-fill" id="topicProgressBar" style="width:0%"></div>
+                                </div>
+                                <div class="progress-text mt-1" id="topicProgressText">০/০ সম্পন্ন</div>
+                            </div>
+                        </div>
+                        <div id="playlistItems" class="max-h-[420px] overflow-y-auto"></div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- ===== CHANGELOG POPUP ===== -->
+    <div id="changelogOverlay" style="display:none; position:fixed; inset:0; z-index:9999; background:rgba(0,0,0,0.5); backdrop-filter:blur(4px); align-items:center; justify-content:center; padding:20px;">
+        <div style="background:var(--changelog-bg); border:1px solid var(--border-secondary); border-radius:20px; padding:28px 24px; width:100%; max-width:480px; max-height:80vh; overflow-y:auto; position:relative; box-shadow:0 25px 60px rgba(0,0,0,0.2);">
+            <button onclick="closeChangelog()" style="position:absolute; top:14px; right:14px; background:rgba(239,68,68,0.1); border:1px solid rgba(239,68,68,0.25); color:#ef4444; width:32px; height:32px; border-radius:10px; font-size:18px; cursor:pointer; display:flex; align-items:center; justify-content:center;">✕</button>
+            <div style="text-align:center; margin-bottom:16px;">
+                <span style="font-size:32px;">📋</span>
+                <h2 style="font-size:20px; font-weight:800; margin-top:8px;">আপডেট লগ</h2>
+                <p style="font-size:12px; color:var(--text-faint); margin-top:4px;">সাম্প্রতিক পরিবর্তনসমূহ</p>
+            </div>
+            <div id="changelogContent"></div>
+            <button onclick="closeChangelog()" style="width:100%; margin-top:20px; padding:12px; background:linear-gradient(135deg,#0ea5e9,#6366f1); border:none; border-radius:12px; color:white; font-size:14px; font-weight:700; cursor:pointer;">বুঝেছি ✓</button>
+        </div>
+    </div>
+
+    <!-- ===== FOOTER ===== -->
+    <footer id="mainFooter" class="main-footer mt-12" style="display:none;">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 py-6 text-center">
+            <p style="color:var(--text-faint)" class="text-xs">© 2025 Ronaldo — অনলাইন শিক্ষা প্ল্যাটফর্ম। সর্বস্বত্ব সংরক্ষিত।</p>
+        </div>
+    </footer>
+
+<script>
+// ========================
+//  THEME SYSTEM
+// ========================
+function getTheme() { return localStorage.getItem('ronaldo_theme') || 'light'; }
+function setTheme(t) {
+    document.documentElement.setAttribute('data-theme', t);
+    localStorage.setItem('ronaldo_theme', t);
+    const btn = document.getElementById('themeBtn');
+    if (btn) btn.textContent = t === 'dark' ? '☀️' : '🌙';
+}
+function toggleTheme() { setTheme(getTheme() === 'dark' ? 'light' : 'dark'); }
+
+// ========================
+//  SESSION TIMER
+// ========================
+let sessionStartTime = null;
+let sessionTimerInterval = null;
+
+function startSessionTimer() {
+    sessionStartTime = Date.now();
+    updateTimerDisplay();
+    sessionTimerInterval = setInterval(updateTimerDisplay, 1000);
+}
+
+function stopSessionTimer() {
+    if (sessionTimerInterval) { clearInterval(sessionTimerInterval); sessionTimerInterval = null; }
+}
+
+function updateTimerDisplay() {
+    if (!sessionStartTime) return;
+    const elapsed = Math.floor((Date.now() - sessionStartTime) / 1000);
+    const hrs = Math.floor(elapsed / 3600);
+    const mins = Math.floor((elapsed % 3600) / 60);
+    const secs = elapsed % 60;
+    const el = document.getElementById('timerDisplay');
+    if (!el) return;
+    if (hrs > 0) {
+        el.textContent = `${toBanglaNum(hrs)}:${toBanglaNum(String(mins).padStart(2,'0'))}:${toBanglaNum(String(secs).padStart(2,'0'))}`;
+    } else {
+        el.textContent = `${toBanglaNum(String(mins).padStart(2,'0'))}:${toBanglaNum(String(secs).padStart(2,'0'))}`;
+    }
+}
+
+function toBanglaNum(n) {
+    const bn = ['০','১','২','৩','৪','৫','৬','৭','৮','৯'];
+    return String(n).replace(/[0-9]/g, d => bn[d]);
+}
+
+// ========================
+//  PROGRESS TRACKING
+// ========================
+function getWatched() {
+    try { return JSON.parse(localStorage.getItem('ronaldo_watched') || '{}'); } catch(e) { return {}; }
+}
+function markWatched(subjectId, topicId, lessonIndex) {
+    const watched = getWatched();
+    const key = `${subjectId}__${topicId}`;
+    if (!watched[key]) watched[key] = [];
+    if (!watched[key].includes(lessonIndex)) {
+        watched[key].push(lessonIndex);
+        localStorage.setItem('ronaldo_watched', JSON.stringify(watched));
+    }
+}
+function isWatched(subjectId, topicId, lessonIndex) {
+    const watched = getWatched();
+    const key = `${subjectId}__${topicId}`;
+    return watched[key] && watched[key].includes(lessonIndex);
+}
+function getTopicProgress(subjectId, topicId, totalLessons) {
+    const watched = getWatched();
+    const key = `${subjectId}__${topicId}`;
+    const done = watched[key] ? watched[key].length : 0;
+    return { done, total: totalLessons, pct: totalLessons > 0 ? Math.round((done / totalLessons) * 100) : 0 };
+}
+function getSubjectProgress(subject) {
+    let totalDone = 0, totalLessons = 0;
+    subject.topics.forEach(t => {
+        totalLessons += t.lessons.length;
+        const p = getTopicProgress(subject.id, t.id, t.lessons.length);
+        totalDone += p.done;
+    });
+    return { done: totalDone, total: totalLessons, pct: totalLessons > 0 ? Math.round((totalDone / totalLessons) * 100) : 0 };
+}
+
+// ========================
+//  ACCESS CODES
+// ========================
+const ACCESS_CODES = {
+    "XQJPLW": { type: "subject", subjectId: "bangla1st", label: "বাংলা ১ম পত্র" },
+    "BTHKRY": { type: "subject", subjectId: "bangla2nd", label: "বাংলা ২য় পত্র" },
+    "FZMNSD": { type: "subject", subjectId: "bgs", label: "বাংলাদেশ ও বিশ্বপরিচয়" },
+    "PVGECU": { type: "subject", subjectId: "biology", label: "জীববিজ্ঞান" },
+    "KAWXRO": { type: "subject", subjectId: "chemistry", label: "রসায়ন" },
+    "MRZNTF": { type: "subject", subjectId: "physics", label: "পদার্থবিজ্ঞান" },
+    "DJWBXS": { type: "subject", subjectId: "math", label: "গণিত" },
+    "QHVGEL": { type: "subject", subjectId: "highermath", label: "উচ্চতর গণিত" },
+    "YLIDQH": { type: "master", label: "সকল বিষয়" }
+};
+
+let activeAccess = null;
+
+// ========================
+//  COURSE DATA
+// ========================
+const COURSES = [
+    {
+        id: "bangla1st", name: "বাংলা ১ম পত্র", icon: "📖",
+        color: "from-blue-500/20 to-cyan-500/20", border: "border-blue-500/30", iconBg: "bg-blue-500/20",
+        desc: "গদ্য, পদ্য ও সহপাঠ",
+        topics: [
+            { id: "prottyupokar", name: "প্রত্যুপকার", icon: "📝", lessons: [
+                { title: "প্রত্যুপকার (১)", videoId: "x4yJlJk26rk" },
+                { title: "প্রত্যুপকার (২)", videoId: "ANLc_Ux5HVU" },
+            ]},
+            { id: "shuvha", name: "সুভা", icon: "👧", lessons: [
+                { title: "সুভা — পর্ব ১", videoId: "qKE7nYfpPVE" },
+                { title: "সুভা — পর্ব ২", videoId: "eVa744zKXzI" },
+                { title: "সুভা — পর্ব ৩", videoId: "79cOn0rXUlI" },
+            ]},
+            { id: "ranar", name: "রানার", icon: "🏃", lessons: [
+                { title: "রানার (১)", videoId: "BsJUK3p2II4" },
+                { title: "রানার (২)", videoId: "u_5yq81KeEA" },
+            ]},
+            { id: "boshekh", name: "বোশেখ", icon: "🌸", lessons: [
+                { title: "বোশেখ (১)", videoId: "UQHhyh4egIA" },
+                { title: "বোশেখ (২)", videoId: "OQEfRMT70Ks" },
+                { title: "বোশেখ (৩)", videoId: "5bWXf-cEI1E" },
+            ]},
+            { id: "kopotakkho", name: "কপোতাক্ষ নদ", icon: "🏞️", lessons: [
+                { title: "কপোতাক্ষ নদ (১)", videoId: "Dkd4LERvEAo" },
+                { title: "কপোতাক্ষ নদ (২)", videoId: "714OI7sfZJg" },
+                { title: "কপোতাক্ষ নদ (৩)", videoId: "0LlBgHh9LBU" },
+            ]},
+            { id: "ekusher-golpo", name: "একুশের গল্প", icon: "📕", lessons: [
+                { title: "একুশের গল্প (১)", videoId: "i4kr4lb6j9E" },
+                { title: "একুশের গল্প (২)", videoId: "9F5qf6LOd6g" },
+            ]},
+            { id: "upekkkhito-shokti", name: "উপেক্ষিত শক্তির উদ্বোধন", icon: "💪", lessons: [
+                { title: "উপেক্ষিত শক্তির উদ্বোধন (১)", videoId: "CkbA_ZV1yU8" },
+                { title: "উপেক্ষিত শক্তির উদ্বোধন (২)", videoId: "tEKfFv8yeQc" },
+            ]},
+            { id: "probash-bondhu", name: "প্রবাস বন্ধু", icon: "🤝", lessons: [
+                { title: "প্রবাস বন্ধু (১)", videoId: "HAWUeON5HBw" },
+                { title: "প্রবাস বন্ধু (২)", videoId: "EG1JNAe2-wM" },
+                { title: "প্রবাস বন্ধু (৩)", videoId: "NnJDCFIS74g" },
+            ]},
+            { id: "he-shadhinota", name: "তোমাকে পাওয়ার জন্যে, হে স্বাধীনতা", icon: "🇧🇩", lessons: [
+                { title: "তোমাকে পাওয়ার জন্যে, হে স্বাধীনতা (১)", videoId: "BeDsNZxqhxE" },
+                { title: "তোমাকে পাওয়ার জন্যে, হে স্বাধীনতা (২)", videoId: "TYoh10AGjWs" },
+            ]}
+        ]
+    },
+    {
+        id: "bangla2nd", name: "বাংলা ২য় পত্র", icon: "✏️",
+        color: "from-violet-500/20 to-purple-500/20", border: "border-violet-500/30", iconBg: "bg-violet-500/20",
+        desc: "ব্যাকরণ ও নির্মিতি",
+        topics: [
+            { id: "poricched-1-3", name: "পরিচ্ছেদ ১-৩: ভাষা, ব্যাকরণ ও ভাষার রীতি", icon: "📝", lessons: [
+                { title: "পরিচ্ছেদ-১ (ভাষা ও বাংলা ভাষা)", videoId: "uB4Ng8heU20" },
+                { title: "পরিচ্ছেদ-২ ও ৩ (বাংলা ব্যাকরণ ও ভাষার রীতি ও বিভাজন)", videoId: "3mExSQUxVEQ" },
+            ]},
+            { id: "poricched-4", name: "পরিচ্ছেদ ৪: বাগযন্ত্র", icon: "🗣️", lessons: [
+                { title: "পরিচ্ছেদ ৪ (বাগযন্ত্র)", videoId: "w4N1l_tTmiU" },
+            ]},
+            { id: "poricched-35", name: "পরিচ্ছেদ ৩৫: কারক", icon: "🔤", lessons: [
+                { title: "পরিচ্ছেদ ৩৫ (কারক-১)", videoId: "JiJz0WjWIJU" },
+                { title: "পরিচ্ছেদ ৩৫ (কারক-২)", videoId: "EzJ9hGtcc6g" },
+            ]},
+            { id: "poricched-36", name: "পরিচ্ছেদ ৩৬: বাচ্য", icon: "🗣️", lessons: [
+                { title: "পরিচ্ছেদ-৩৬ (বাচ্য-১)", videoId: "HBccM8YyGhI" },
+                { title: "পরিচ্ছেদ ৩৬ (বাচ্য-২)", videoId: "dByXi6QPKGY" },
+            ]},
+            { id: "poricched-38", name: "পরিচ্ছেদ ৩৮: যতিচিহ্ন", icon: "✍️", lessons: [
+                { title: "পরিচ্ছেদ ৩৮ (যতিচিহ্ন)", videoId: "z4TiTGmZisA" },
+            ]},
+            { id: "poricched-39", name: "পরিচ্ছেদ ৩৯: বাগর্থের শ্রেণি", icon: "📚", lessons: [
+                { title: "পরিচ্ছেদ-৩৯ (বাগর্থের শ্রেণি)", videoId: "-r742WizXTw" },
+            ]}
+        ]
+    },
+    {
+        id: "bgs", name: "বাংলাদেশ ও বিশ্বপরিচয়", nameShort: "BGS", icon: "🌏",
+        color: "from-amber-500/20 to-orange-500/20", border: "border-amber-500/30", iconBg: "bg-amber-500/20",
+        desc: "বাংলাদেশের ভূগোল, ইতিহাস ও সমাজ",
+        topics: [
+            { id: "ch5-river", name: "অধ্যায় ৫: বাংলাদেশের নদ-নদী ও প্রাকৃতিক সম্পদ", icon: "🏞️", lessons: [
+                { title: "নদ-নদী ও প্রাকৃতিক সম্পদ (১)", videoId: "jR3dmuWkacc" },
+                { title: "নদ-নদী ও প্রাকৃতিক সম্পদ (২)", videoId: "kD7xavvFpWk" },
+                { title: "নদ-নদী ও প্রাকৃতিক সম্পদ (৩)", videoId: "IZgNdayctQk" },
+                { title: "নদ-নদী ও প্রাকৃতিক সম্পদ (৪)", videoId: "K0wNXR8MzGo" },
+            ]},
+            { id: "ch6-state", name: "অধ্যায় ৬: রাষ্ট্র, নাগরিকতা ও আইন", icon: "⚖️", lessons: [
+                { title: "রাষ্ট্র, নাগরিকতা ও আইন (১)", videoId: "Laat_MbgpvY" },
+                { title: "রাষ্ট্র, নাগরিকতা ও আইন (২)", videoId: "Tjsa1QbSCPY" },
+                { title: "রাষ্ট্র, নাগরিকতা ও আইন (৩)", videoId: "v1Z2Bdi0Zns" },
+            ]},
+            { id: "ch11-economy", name: "অধ্যায় ১১: অর্থনৈতিক নির্দেশকসমূহ ও বাংলাদেশের অর্থনীতি", icon: "💰", lessons: [
+                { title: "অর্থনৈতিক নির্দেশকসমূহ ও বাংলাদেশের অর্থনীতির প্রকৃতি (১)", videoId: "3yhXqB4nCjw" },
+                { title: "অর্থনৈতিক নির্দেশকসমূহ ও বাংলাদেশের অর্থনীতির প্রকৃতি (২)", videoId: "I-aQAwfKeBc" },
+            ]}
+        ]
+    },
+    {
+        id: "biology", name: "জীববিজ্ঞান", nameShort: "Biology", icon: "🧬",
+        color: "from-green-500/20 to-emerald-500/20", border: "border-green-500/30", iconBg: "bg-green-500/20",
+        desc: "জীবের প্রজনন, বংশগতি ও বিবর্তন",
+        topics: [
+            { id: "ch3-cell-division", name: "অধ্যায় ৩: কোষ বিভাজন", icon: "🔬", lessons: [
+                { title: "কোষ বিভাজন (১)", videoId: "OYEOmNfYqTQ" },
+                { title: "কোষ বিভাজন (২)", videoId: "Mx-Ee-IhQ_M" },
+                { title: "কোষ বিভাজন (৩)", videoId: "P3ab5ov6QuA" },
+                { title: "কোষ বিভাজন (৪)", videoId: "VwZFjD3-BIs" },
+            ]},
+            { id: "ch4-life-energy", name: "অধ্যায় ৪: জীবনশক্তি", icon: "⚡", lessons: [
+                { title: "জীবনশক্তি (১)", videoId: "HdRpDp4tsFI" },
+            ]},
+            { id: "ch11-reproduction", name: "অধ্যায় ১১: জীবের প্রজনন", icon: "🔬", lessons: [
+                { title: "জীবের প্রজনন (১)", videoId: "32eReI_C8r4" },
+                { title: "জীবের প্রজনন (২)", videoId: "_IC4df1kGh8" },
+                { title: "জীবের প্রজনন (৩)", videoId: "py2xjcwnO5w" },
+            ]},
+            { id: "ch12-heredity", name: "অধ্যায় ১২: জীবের বংশগতি ও বিবর্তন", icon: "🧪", lessons: [
+                { title: "জীবের বংশগতি (১)", videoId: "TUis_8ZPVmE" },
+                { title: "জীবের বংশগতি (২)", videoId: "WZuFOSIIRTk" },
+                { title: "জীবের বংশগতি (৩)", videoId: "1uAWQdM40is" },
+                { title: "জীবের বংশগতি (৪)", videoId: "7IcXXWXlqg0" },
+                { title: "জীবের বংশগতি (৫)", videoId: "csd6ydDMYHg" },
+                { title: "জীবের বংশগতি (৬)", videoId: "McKlAGdPtkY" },
+                { title: "জীবের বংশগতি (৭)", videoId: "wIx4npZRzv4" },
+            ]}
+        ]
+    },
+    {
+        id: "chemistry", name: "রসায়ন", nameShort: "Chemistry", icon: "⚗️",
+        color: "from-rose-500/20 to-pink-500/20", border: "border-rose-500/30", iconBg: "bg-rose-500/20",
+        desc: "এসিড, ক্ষারক, বিক্রিয়া ও রাসায়নিক সমতা",
+        topics: [
+            { id: "ch3-matter", name: "অধ্যায় ০৩: পদার্থের গঠন", icon: "⚛️", lessons: [
+                { title: "পদার্থের গঠন (১)", videoId: "bBtwe2aOBpg" },
+                { title: "পদার্থের গঠন (২)", videoId: "_nvWF_HRG4I" },
+                { title: "পদার্থের গঠন (৩)", videoId: "rTwsCY6UjHc" },
+                { title: "পদার্থের গঠন (৪)", videoId: "N2viU16wzuY" },
+                { title: "পদার্থের গঠন (৫)", videoId: "kJvbGXmBtOE" },
+            ]},
+            { id: "ch9-acid-base", name: "অধ্যায় ০৯: এসিড, ক্ষারক ও সমতা", icon: "🧪", lessons: [
+                { title: "এসিড, ক্ষারক ও সমতা (১)", videoId: "mCg-xe6jJfc" },
+                { title: "এসিড, ক্ষারক ও সমতা (২)", videoId: "zNWLNmHHNeI" },
+                { title: "এসিড, ক্ষারক ও সমতা (৩)", videoId: "ijNb3bDOoHM" },
+                { title: "এসিড, ক্ষারক ও সমতা (৪)", videoId: "dvT981ahhU0" },
+            ]}
+        ]
+    },
+    {
+        id: "physics", name: "পদার্থবিজ্ঞান", nameShort: "Physics", icon: "⚡",
+        color: "from-yellow-500/20 to-amber-500/20", border: "border-yellow-500/30", iconBg: "bg-yellow-500/20",
+        desc: "বল, গতি, শক্তি ও তাপ",
+        topics: [
+            { id: "ch5-pressure", name: "অধ্যায় ৫: পদার্থের অবস্থা ও চাপ", icon: "🌡️", lessons: [
+                { title: "পদার্থের অবস্থা ও চাপ (১)", videoId: "RfOSFQ14zdc" },
+                { title: "পদার্থের অবস্থা ও চাপ (২)", videoId: "Rf75rQb14Rs" },
+                { title: "পদার্থের অবস্থা ও চাপ (৩)", videoId: "SBtCyjBsqvs" },
+                { title: "পদার্থের অবস্থা ও চাপ (৪)", videoId: "qdJKCRexohM" },
+                { title: "পদার্থের অবস্থা ও চাপ (৫)", videoId: "yPRETYmbfhY" },
+            ]}
+        ]
+    },
+    {
+        id: "math", name: "গণিত", nameShort: "Math", icon: "📐",
+        color: "from-teal-500/20 to-cyan-500/20", border: "border-teal-500/30", iconBg: "bg-teal-500/20",
+        desc: "পাটিগণিত, বীজগণিত ও জ্যামিতি",
+        comingSoon: true, topics: []
+    },
+    {
+        id: "highermath", name: "উচ্চতর গণিত", nameShort: "Higher Math", icon: "🧮",
+        color: "from-indigo-500/20 to-blue-500/20", border: "border-indigo-500/30", iconBg: "bg-indigo-500/20",
+        desc: "সেট, ফাংশন, ত্রিকোণমিতি ও ক্যালকুলাস",
+        comingSoon: true, topics: []
+    }
+];
+
+// ========================
+//  STATE
+// ========================
+let currentSubject = null;
+let currentTopic = null;
+let currentLessonIndex = 0;
+
+// ========================
+//  ACCESS CONTROL
+// ========================
+function getVisibleCourses() {
+    if (!activeAccess) return [];
+    if (activeAccess.type === 'master') return COURSES;
+    return COURSES.filter(c => c.id === activeAccess.subjectId);
+}
+
+function handleLogin() {
+    const input = document.getElementById('codeInput');
+    const errorMsg = document.getElementById('errorMsg');
+    const code = input.value.trim().toUpperCase();
+    if (code.length !== 6) {
+        input.classList.add('error');
+        errorMsg.textContent = '⚠️ অনুগ্রহ করে ৬-অক্ষরের কোড দিন';
+        setTimeout(() => input.classList.remove('error'), 500);
+        return;
+    }
+    const access = ACCESS_CODES[code];
+    if (!access) {
+        input.classList.add('error');
+        errorMsg.textContent = '❌ ভুল কোড! আবার চেষ্টা করুন।';
+        setTimeout(() => input.classList.remove('error'), 500);
+        input.value = '';
+        input.focus();
+        return;
+    }
+    input.classList.add('success');
+    errorMsg.innerHTML = '<span style="color:#22c55e">✅ সফলভাবে যাচাই হয়েছে!</span>';
+    activeAccess = access;
+    sessionStorage.setItem('ronaldo_code', code);
+    setTimeout(() => enterDashboard(), 600);
+}
+
+function enterDashboard() {
+    document.getElementById('viewLogin').classList.remove('active');
+    document.getElementById('viewLogin').style.display = 'none';
+    document.getElementById('mainHeader').style.display = '';
+    document.getElementById('mainFooter').style.display = '';
+    const label = document.getElementById('accessLabel');
+    if (label) label.textContent = activeAccess.label;
+    document.getElementById('accessInfo').classList.remove('hidden');
+    document.getElementById('accessInfo').classList.add('flex');
+    if (activeAccess.type === 'master') {
+        document.getElementById('welcomeMsg').textContent = 'সকল বিষয় আনলক! একটি বিষয় বেছে নিন।';
+    } else {
+        document.getElementById('welcomeMsg').textContent = `${activeAccess.label} — আপনার কোর্সে স্বাগতম!`;
+    }
+    renderSubjects();
+    document.getElementById('statSubjects').textContent = '0';
+    document.getElementById('statTopics').textContent = '0';
+    document.getElementById('statLessons').textContent = '0';
+    setTimeout(() => updateStats(), 400);
+    showView('viewHome');
+    startSessionTimer();
+    setTimeout(() => { if (shouldShowChangelog()) showChangelog(); }, 800);
+}
+
+function handleLogout() {
+    activeAccess = null;
+    sessionStorage.removeItem('ronaldo_code');
+    destroyPlayer();
+    stopSessionTimer();
+    currentSubject = null;
+    currentTopic = null;
+    document.getElementById('mainHeader').style.display = 'none';
+    document.getElementById('mainFooter').style.display = 'none';
+    document.getElementById('codeInput').value = '';
+    document.getElementById('codeInput').classList.remove('success', 'error');
+    document.getElementById('errorMsg').textContent = '';
+    document.querySelectorAll('.view').forEach(v => { v.classList.remove('active'); v.style.display = ''; });
+    const loginView = document.getElementById('viewLogin');
+    void loginView.offsetWidth;
+    loginView.classList.add('active');
+    document.getElementById('codeInput').focus();
+}
+
+// ========================
+//  STATS
+// ========================
+function updateStats() {
+    const visible = getVisibleCourses();
+    let topics = 0, lessons = 0;
+    visible.forEach(s => { topics += s.topics.length; s.topics.forEach(t => lessons += t.lessons.length); });
+    animateCounter('statSubjects', visible.length, 800);
+    animateCounter('statTopics', topics, 1200);
+    animateCounter('statLessons', lessons, 1600);
+}
+
+function animateCounter(id, target, duration) {
+    const el = document.getElementById(id);
+    if (!el || target === 0) { if(el) el.textContent = target; return; }
+    const startTime = performance.now();
+    function step(now) {
+        const elapsed = now - startTime;
+        const progress = Math.min(elapsed / duration, 1);
+        const eased = progress === 1 ? 1 : 1 - Math.pow(2, -10 * progress);
+        el.textContent = Math.round(eased * target);
+        if (progress < 1) requestAnimationFrame(step);
+    }
+    requestAnimationFrame(step);
+}
+
+// ========================
+//  VIEW MANAGEMENT
+// ========================
+function showView(id) {
+    document.querySelectorAll('.view:not(#viewLogin)').forEach(v => v.classList.remove('active'));
+    const target = document.getElementById(id);
+    void target.offsetWidth;
+    target.classList.add('active');
+    window.scrollTo({ top: 0, behavior: 'smooth' });
+}
+
+function updateBreadcrumb(parts) {
+    const el = document.getElementById('headerBreadcrumb');
+    if (!parts || parts.length === 0) { el.innerHTML = ''; return; }
+    el.innerHTML = parts.map((p, i) => {
+        const isLast = i === parts.length - 1;
+        const sep = i > 0 ? '<span class="sep">›</span>' : '';
+        if (isLast) return `${sep}<span class="current">${p.label}</span>`;
+        return `${sep}<span class="link" onclick="${p.action}">${p.label}</span>`;
+    }).join('');
+}
+
+// ========================
+//  HOME VIEW
+// ========================
+function renderSubjects() {
+    const grid = document.getElementById('subjectGrid');
+    const visible = getVisibleCourses();
+    grid.innerHTML = visible.map(s => {
+        const topicCount = s.topics.length;
+        let lessonCount = 0;
+        s.topics.forEach(t => lessonCount += t.lessons.length);
+        const prog = getSubjectProgress(s);
+        const comingSoonHTML = s.comingSoon
+            ? `<span class="coming-soon-badge">শীঘ্রই আসছে</span>`
+            : `<span class="text-xs px-2.5 py-1 rounded-full" style="color:var(--text-muted); background:var(--bg-overlay)">${lessonCount} পাঠ</span>`;
+        const topicBadge = s.comingSoon ? ''
+            : `<span style="background:var(--bg-overlay); color:var(--text-muted)" class="px-2 py-0.5 rounded text-xs">${topicCount} অধ্যায়</span>`;
+        const progressHTML = s.comingSoon ? '' : `
+            <div class="mt-4">
+                <div class="flex items-center justify-between mb-1">
+                    <span class="progress-text">অগ্রগতি</span>
+                    <span class="progress-text">${prog.pct}%</span>
+                </div>
+                <div class="progress-bar-bg">
+                    <div class="progress-bar-fill" style="width:${prog.pct}%"></div>
+                </div>
+            </div>`;
+        return `
+        <div class="tile subject-card p-5 sm:p-6 ${s.comingSoon ? 'opacity-70' : ''}"
+             onclick="${s.comingSoon ? '' : `openSubject('${s.id}')`}">
+            <div class="flex items-start justify-between mb-4">
+                <div class="icon-bg ${s.iconBg}">${s.icon}</div>
+                <div class="flex items-center gap-1.5">${comingSoonHTML}</div>
+            </div>
+            <h3 class="text-lg font-bold mb-1">${s.name}</h3>
+            <p class="text-sm mb-2" style="color:var(--text-muted)">${s.desc}</p>
+            <div class="flex items-center gap-2 text-xs" style="color:var(--text-faint)">
+                ${topicBadge}
+                ${s.nameShort ? `<span style="background:var(--bg-overlay)" class="px-2 py-0.5 rounded">${s.nameShort}</span>` : ''}
+            </div>
+            ${progressHTML}
+        </div>`;
+    }).join('');
+    if (visible.length === 0) {
+        grid.innerHTML = '<div class="col-span-full text-center py-12" style="color:var(--text-muted)">কোনো বিষয় পাওয়া যায়নি।</div>';
+    }
+}
+
+function goHome() {
+    currentSubject = null;
+    currentTopic = null;
+    destroyPlayer();
+    updateBreadcrumb([]);
+    renderSubjects();
+    showView('viewHome');
+}
+
+// ========================
+//  TOPICS VIEW
+// ========================
+function openSubject(subjectId) {
+    currentSubject = COURSES.find(s => s.id === subjectId);
+    if (!currentSubject) return;
+    if (activeAccess.type !== 'master' && activeAccess.subjectId !== subjectId) return;
+
+    document.getElementById('topicSubjectIcon').className = `icon-bg ${currentSubject.iconBg}`;
+    document.getElementById('topicSubjectIcon').textContent = currentSubject.icon;
+    document.getElementById('topicSubjectTitle').textContent = currentSubject.name;
+    document.getElementById('topicSubjectDesc').textContent = currentSubject.desc;
+
+    // Subject progress
+    const sp = getSubjectProgress(currentSubject);
+    document.getElementById('subjectProgressBar').style.width = sp.pct + '%';
+    document.getElementById('subjectProgressText').textContent = `${toBanglaNum(sp.done)}/${toBanglaNum(sp.total)} সম্পন্ন (${toBanglaNum(sp.pct)}%)`;
+
+    const grid = document.getElementById('topicGrid');
+    grid.innerHTML = currentSubject.topics.map((t, i) => {
+        const tp = getTopicProgress(currentSubject.id, t.id, t.lessons.length);
+        return `
+        <div class="tile topic-card p-5 hover:border-sky-500/40"
+             onclick="openTopic('${currentSubject.id}', ${i})">
+            <div class="flex items-center gap-3 mb-3">
+                <span class="text-2xl">${t.icon}</span>
+                <div class="flex-1 min-w-0">
+                    <h3 class="font-bold text-[15px]">${t.name}</h3>
+                    <p class="text-xs" style="color:var(--text-muted)">${t.lessons.length} টি ভিডিও পাঠ</p>
+                </div>
+            </div>
+            <div class="mb-3">
+                <div class="flex items-center justify-between mb-1">
+                    <span class="progress-text">${toBanglaNum(tp.done)}/${toBanglaNum(tp.total)} সম্পন্ন</span>
+                    <span class="progress-text">${toBanglaNum(tp.pct)}%</span>
+                </div>
+                <div class="progress-bar-bg">
+                    <div class="progress-bar-fill" style="width:${tp.pct}%"></div>
+                </div>
+            </div>
+            <div class="space-y-1.5">
+                ${t.lessons.slice(0, 3).map((l, li) => {
+                    const watched = isWatched(currentSubject.id, t.id, li);
+                    return `<div class="flex items-center gap-2 text-xs" style="color:var(--text-muted)">
+                        <span class="shrink-0">${watched ? '✅' : '⏳'}</span>
+                        <span class="truncate">${l.title}</span>
+                    </div>`;
+                }).join('')}
+                ${t.lessons.length > 3 ? `<div class="text-xs" style="color:var(--text-faint)">+${t.lessons.length - 3} আরও...</div>` : ''}
+            </div>
+        </div>`;
+    }).join('');
+
+    updateBreadcrumb([
+        { label: 'হোম', action: 'goHome()' },
+        { label: currentSubject.name }
+    ]);
+    showView('viewTopics');
+}
+
+// ========================
+//  VIDEO VIEW
+// ========================
+function openTopic(subjectId, topicIndex, lessonIndex = 0) {
+    currentSubject = COURSES.find(s => s.id === subjectId);
+    currentTopic = currentSubject.topics[topicIndex];
+    currentLessonIndex = lessonIndex;
+    document.getElementById('backToTopicsBtn').onclick = () => openSubject(subjectId);
+    renderPlaylist();
+    playLesson(lessonIndex);
+    updateBreadcrumb([
+        { label: 'হোম', action: 'goHome()' },
+        { label: currentSubject.name, action: `openSubject('${subjectId}')` },
+        { label: currentTopic.name }
+    ]);
+    showView('viewVideo');
+}
+
+function renderPlaylist() {
+    document.getElementById('playlistTitle').textContent = currentTopic.name;
+    document.getElementById('playlistCount').textContent = `${currentTopic.lessons.length} টি পাঠ • ${currentSubject.name}`;
+
+    // Topic progress in playlist
+    const tp = getTopicProgress(currentSubject.id, currentTopic.id, currentTopic.lessons.length);
+    document.getElementById('topicProgressBar').style.width = tp.pct + '%';
+    document.getElementById('topicProgressText').textContent = `${toBanglaNum(tp.done)}/${toBanglaNum(tp.total)} সম্পন্ন`;
+
+    const container = document.getElementById('playlistItems');
+    container.innerHTML = currentTopic.lessons.map((l, i) => {
+        const watched = isWatched(currentSubject.id, currentTopic.id, i);
+        return `
+        <div class="lesson-card flex items-center gap-3 px-4 py-3 ${i === currentLessonIndex ? 'now-playing' : ''}"
+             style="border-bottom:1px solid var(--border-primary)"
+             onclick="playLesson(${i})" data-index="${i}">
+            <div class="w-7 h-7 rounded-full flex items-center justify-center shrink-0 text-xs font-bold
+                ${i === currentLessonIndex ? 'bg-sky-500 text-white' : watched ? 'bg-green-500/20 text-green-500' : 'text-slate-400'}"
+                style="${i !== currentLessonIndex && !watched ? 'background:var(--bg-overlay)' : ''}">
+                ${i === currentLessonIndex ? '▶' : watched ? '✓' : i + 1}
+            </div>
+            <div class="min-w-0 flex-1">
+                <div class="text-sm font-medium truncate ${i === currentLessonIndex ? 'text-sky-500' : ''}">${l.title}</div>
+                ${watched ? '<div class="text-xs text-green-500">দেখা হয়েছে ✓</div>' : ''}
+            </div>
+        </div>`;
+    }).join('');
+}
+
+function playLesson(index) {
+    currentLessonIndex = index;
+    const lesson = currentTopic.lessons[index];
+    document.getElementById('videoTitle').textContent = lesson.title;
+    document.getElementById('videoMeta').textContent = `${currentSubject.name} › ${currentTopic.name} • পাঠ ${index + 1} / ${currentTopic.lessons.length}`;
+
+    const bigPlay = document.getElementById('bigPlayBtn');
+    if (bigPlay) bigPlay.style.display = '';
+    const seek = document.getElementById('seekBar'); if (seek) seek.value = 0;
+    const timeLabel = document.getElementById('timeLabel'); if (timeLabel) timeLabel.textContent = '0:00 / 0:00';
+
+    // Mark as watched after 5 seconds of play
+    clearTimeout(window.__watchTimeout);
+
+    const startSeconds = lesson.start || 0;
+    ensureYTPlayer().then(() => {
+        if (!window.__ytPlayer) {
+            window.__ytPlayer = new YT.Player('ytPlayerMount', {
+                width: '100%', height: '100%',
+                videoId: lesson.videoId,
+                playerVars: { autoplay: 0, controls: 0, rel: 0, modestbranding: 1, fs: 1, iv_load_policy: 3, disablekb: 0, playsinline: 1 },
+                events: {
+                    onReady: (e) => { setupCustomControls(e.target); if (startSeconds) e.target.seekTo(startSeconds, true); updatePlayUI(); },
+                    onStateChange: onYTStateChange,
+                    onError: onYTError
+                }
+            });
+        } else {
+            try { window.__ytPlayer.loadVideoById({ videoId: lesson.videoId, startSeconds }); } catch (e) {}
+        }
+    });
+
+    // Update playlist highlight
+    document.querySelectorAll('.lesson-card').forEach(el => {
+        const i = parseInt(el.dataset.index);
+        el.classList.toggle('now-playing', i === index);
+        const numEl = el.querySelector('div');
+        const watched = isWatched(currentSubject.id, currentTopic.id, i);
+        if (i === index) {
+            numEl.className = 'w-7 h-7 rounded-full flex items-center justify-center shrink-0 text-xs font-bold bg-sky-500 text-white';
+            numEl.textContent = '▶';
+        } else if (watched) {
+            numEl.className = 'w-7 h-7 rounded-full flex items-center justify-center shrink-0 text-xs font-bold bg-green-500/20 text-green-500';
+            numEl.textContent = '✓';
+        } else {
+            numEl.className = 'w-7 h-7 rounded-full flex items-center justify-center shrink-0 text-xs font-bold';
+            numEl.style.background = 'var(--bg-overlay)';
+            numEl.style.color = 'var(--text-muted)';
+            numEl.textContent = i + 1;
+        }
+    });
+
+    document.getElementById('prevLessonBtn').disabled = index === 0;
+    document.getElementById('prevLessonBtn').style.opacity = index === 0 ? '0.4' : '1';
+    document.getElementById('nextLessonBtn').disabled = index === currentTopic.lessons.length - 1;
+    document.getElementById('nextLessonBtn').style.opacity = index === currentTopic.lessons.length - 1 ? '0.4' : '1';
+
+    const activeCard = document.querySelector('.lesson-card.now-playing');
+    if (activeCard) activeCard.scrollIntoView({ behavior: 'smooth', block: 'nearest' });
+}
+
+function nextLesson() { if (currentLessonIndex < currentTopic.lessons.length - 1) playLesson(currentLessonIndex + 1); }
+function prevLesson() { if (currentLessonIndex > 0) playLesson(currentLessonIndex - 1); }
+
+function destroyPlayer() {
+    if (window.__ytPlayer && window.__ytPlayer.destroy) {
+        try { window.__ytPlayer.destroy(); } catch (e) {}
+        window.__ytPlayer = null;
+    }
+    stopProgress();
+    clearTimeout(window.__watchTimeout);
+}
+
+// ========================
+//  PROTECTION LAYER
+// ========================
+document.addEventListener('keydown', function(e) {
+    if (e.key === 'F12') { e.preventDefault(); return false; }
+    if (e.ctrlKey && e.shiftKey && ['I','J','C'].includes(e.key.toUpperCase())) { e.preventDefault(); return false; }
+    if (e.ctrlKey && e.key.toUpperCase() === 'U') { e.preventDefault(); return false; }
+    if (e.ctrlKey && e.key.toUpperCase() === 'S') { e.preventDefault(); return false; }
+});
+document.addEventListener('dragstart', function(e) { e.preventDefault(); });
+
+// ========================
+//  YOUTUBE API + CUSTOM CONTROLS
+// ========================
+let ytApiPromise = null; let progressTimer = null;
+function ensureYTPlayer() {
+    if (window.YT && window.YT.Player) return Promise.resolve();
+    if (!ytApiPromise) {
+        ytApiPromise = new Promise(resolve => {
+            const tag = document.createElement('script');
+            tag.src = "https://www.youtube.com/iframe_api";
+            document.body.appendChild(tag);
+            window.onYouTubeIframeAPIReady = () => resolve();
+        });
+    }
+    return ytApiPromise;
+}
+
+function onYTStateChange(evt) {
+    updatePlayUI();
+    if (evt.data === YT.PlayerState.PLAYING) {
+        startProgress();
+        // Mark watched after 5 seconds
+        clearTimeout(window.__watchTimeout);
+        window.__watchTimeout = setTimeout(() => {
+            if (currentSubject && currentTopic) {
+                markWatched(currentSubject.id, currentTopic.id, currentLessonIndex);
+                renderPlaylist();
+            }
+        }, 5000);
+    } else {
+        stopProgress();
+        clearTimeout(window.__watchTimeout);
+    }
+}
+
+function setupCustomControls(player) {
+    const bigPlay = document.getElementById('bigPlayBtn');
+    const btn = document.getElementById('btnPlayPause');
+    const seek = document.getElementById('seekBar');
+    const vol = document.getElementById('volBar');
+    const speed = document.getElementById('speedSel');
+    const fsBtn = document.getElementById('btnFullscreen');
+
+    function playPause() {
+        const st = player.getPlayerState();
+        if (st !== YT.PlayerState.PLAYING) player.playVideo(); else player.pauseVideo();
+    }
+
+    bigPlay.onclick = () => { playPause(); bigPlay.style.display = 'none'; };
+    bigPlay.onkeydown = (e) => {
+        if (e.key === 'Enter' || e.key === ' ') { e.preventDefault(); playPause(); bigPlay.style.display = 'none'; }
+    };
+    btn.onclick = playPause;
+    seek.oninput = () => { const d = player.getDuration() || 0; const t = d * (seek.value/100); if (Number.isFinite(t)) player.seekTo(t, true); };
+    vol.oninput = () => { player.setVolume(Math.max(0, Math.min(100, +vol.value))); };
+    speed.onchange = () => { player.setPlaybackRate(parseFloat(speed.value)); };
+    fsBtn.onclick = () => {
+        const container = document.getElementById('videoContainer');
+        if (!document.fullscreenElement) container.requestFullscreen?.(); else document.exitFullscreen?.();
+    };
+
+    if (bigPlay) {
+        bigPlay.addEventListener('touchstart', (e) => { e.preventDefault(); playPause(); bigPlay.style.display = 'none'; }, { passive: false });
+    }
+    if (btn) {
+        btn.addEventListener('touchstart', (e) => { e.preventDefault(); playPause(); }, { passive: false });
+    }
+
+    try { player.setVolume(parseInt(vol.value,10)); } catch(e) {}
+    updateTime();
+}
+
+function startProgress() { stopProgress(); progressTimer = setInterval(updateTime, 250); }
+function stopProgress() { if (progressTimer) { clearInterval(progressTimer); progressTimer = null; } }
+
+function updateTime() {
+    if (!window.__ytPlayer || !window.__ytPlayer.getCurrentTime) return;
+    const t = window.__ytPlayer.getCurrentTime() || 0;
+    const d = window.__ytPlayer.getDuration() || 0;
+    const pct = d ? Math.min(100, Math.max(0, (t/d)*100)) : 0;
+    const seek = document.getElementById('seekBar');
+    if (seek) seek.value = pct;
+    const timeLabel = document.getElementById('timeLabel');
+    if (timeLabel) timeLabel.textContent = `${fmtTime(t)} / ${fmtTime(d)}`;
+}
+function fmtTime(s) { s = Math.max(0, Math.floor(s)); const m = Math.floor(s/60); const ss = (s%60).toString().padStart(2,'0'); return `${m}:${ss}`; }
+
+function updatePlayUI() {
+    const btn = document.getElementById('btnPlayPause');
+    const bigPlay = document.getElementById('bigPlayBtn');
+    if (!btn || !window.__ytPlayer) return;
+    const st = window.__ytPlayer.getPlayerState();
+    const isPlaying = st === YT.PlayerState.PLAYING;
+    btn.innerHTML = isPlaying
+        ? '<svg viewBox="0 0 24 24" fill="currentColor"><path d="M6 19h4V5H6v14zm8-14v14h4V5h-4z"/></svg> <span class="hidden sm:inline">Pause</span>'
+        : '<svg viewBox="0 0 24 24" fill="currentColor"><path d="M8 5v14l11-7z"/></svg> <span class="hidden sm:inline">Play</span>';
+    if (bigPlay) {
+        const shouldShow = !isPlaying;
+        bigPlay.style.display = shouldShow ? '' : 'none';
+        bigPlay.setAttribute('aria-pressed', isPlaying ? 'true' : 'false');
+    }
+}
+
+// ========================
+//  CHANGELOG SYSTEM
+// ========================
+const CHANGELOG = [
+    {
+        date: "২৬ জুন ২০২৫",
+        changes: [
+            "🌞 লাইট থিম ডিফল্ট — ডার্ক মোড টগল যোগ",
+            "📊 প্রতিটি বিষয়ে অগ্রগতি বার যোগ",
+            "⏱️ সেশন টাইমার — কতক্ষণ ধরে পড়ছেন দেখুন",
+            "✅ ভিডিও দেখার ৫ সেকেন্ড পর স্বয়ংক্রিয়ভাবে 'দেখা হয়েছে' চিহ্নিত",
+        ]
+    },
+    {
+        date: "২৫ জুন ২০২৫",
+        changes: [
+            "🆕 পদার্থবিজ্ঞান, গণিত ও উচ্চতর গণিত বিভাগ যোগ",
+            "📹 পদার্থবিজ্ঞান অধ্যায় ৫ — ৫টি ভিডিও যোগ",
+            "⚗️ রসায়ন অধ্যায় ০৩ — ৫টি ভিডিও যোগ",
+            "🧬 জীববিজ্ঞান অধ্যায় ৩, ৪ — নতুন অধ্যায় যোগ",
+            "🔒 কাস্টম প্লেয়ার — লিংক কপি সম্পূর্ণ বন্ধ",
+            "🔑 এক্সেস কোড সিস্টেম যোগ",
+        ]
+    },
+    {
+        date: "২৪ জুন ২০২৫",
+        changes: [
+            "📖 বাংলা ১ম পত্র — ৯টি অধ্যায়, ২১টি ভিডিও",
+            "✏️ বাংলা ২য় পত্র — ৬টি অধ্যায়, ৮টি ভিডিও",
+            "🌏 BGS — ৩টি অধ্যায়, ৯টি ভিডিও",
+            "🧬 জীববিজ্ঞান — বংশগতি ও প্রজনন অধ্যায় যোগ",
+            "🚀 প্ল্যাটফর্ম প্রথমবার লঞ্চ",
+        ]
+    }
+];
+
+const CHANGELOG_VERSION = "v3.0";
+
+function showChangelog() {
+    const overlay = document.getElementById('changelogOverlay');
+    const content = document.getElementById('changelogContent');
+    if (!overlay || !content) return;
+    content.innerHTML = CHANGELOG.map(entry => `
+        <div style="margin-bottom:16px; background:var(--changelog-entry-bg); border:1px solid var(--changelog-entry-border); border-radius:12px; padding:14px 16px;">
+            <div style="display:flex; align-items:center; gap:8px; margin-bottom:10px;">
+                <span style="background:var(--accent-bg); color:var(--accent); font-size:11px; font-weight:700; padding:3px 10px; border-radius:8px;">📅 ${entry.date}</span>
+            </div>
+            <ul style="list-style:none; padding:0; margin:0;">
+                ${entry.changes.map(c => `<li style="font-size:13px; padding:4px 0; border-bottom:1px solid var(--border-primary);">${c}</li>`).join('')}
+            </ul>
+        </div>
+    `).join('');
+    overlay.setAttribute('style', 'display:flex; position:fixed; inset:0; z-index:9999; background:rgba(0,0,0,0.5); backdrop-filter:blur(4px); align-items:center; justify-content:center; padding:20px;');
+}
+
+function closeChangelog() {
+    const overlay = document.getElementById('changelogOverlay');
+    overlay.setAttribute('style', 'display:none;');
+    sessionStorage.setItem('ronaldo_changelog_seen', CHANGELOG_VERSION);
+}
+
+function shouldShowChangelog() { return sessionStorage.getItem('ronaldo_changelog_seen') !== CHANGELOG_VERSION; }
+
+// ========================
+//  VIDEO ERROR HANDLING
+// ========================
+function onYTError(evt) {
+    const codes = { 2: 'ভুল ভিডিও ID', 5: 'HTML5 প্লেয়ার সমস্যা', 100: 'ভিডিও পাওয়া যায়নি', 101: 'এম্বেড অনুমতি নেই', 150: 'এম্বেড অনুমতি নেই' };
+    const msg = codes[evt.data] || `ত্রুটি কোড: ${evt.data}`;
+    const container = document.getElementById('videoContainer');
+    const errorDiv = document.createElement('div');
+    errorDiv.id = 'videoError';
+    errorDiv.style.cssText = 'position:absolute;inset:0;z-index:20;display:flex;flex-direction:column;align-items:center;justify-content:center;border-radius:12px;background:#0f172a;';
+    errorDiv.innerHTML = `
+        <span style="font-size:48px;margin-bottom:12px;">⚠️</span>
+        <p style="color:#f87171;font-size:16px;font-weight:700;margin-bottom:6px;">ভিডিও লোড হচ্ছে না</p>
+        <p style="color:#94a3b8;font-size:13px;margin-bottom:16px;">${msg}</p>
+        <button onclick="retryVideo()" style="padding:10px 24px;background:linear-gradient(135deg,#0ea5e9,#6366f1);border:none;border-radius:10px;color:white;font-weight:600;cursor:pointer;">🔄 আবার চেষ্টা করুন</button>
+    `;
+    const existing = document.getElementById('videoError');
+    if (existing) existing.remove();
+    container.appendChild(errorDiv);
+}
+
+function retryVideo() {
+    const errorDiv = document.getElementById('videoError');
+    if (errorDiv) errorDiv.remove();
+    if (currentTopic && currentTopic.lessons[currentLessonIndex]) {
+        destroyPlayer();
+        const mount = document.createElement('div');
+        mount.id = 'ytPlayerMount';
+        mount.className = 'absolute inset-0';
+        const container = document.getElementById('videoContainer');
+        const shield = document.getElementById('clickShield');
+        container.insertBefore(mount, shield);
+        playLesson(currentLessonIndex);
+    }
+}
+
+// ========================
+//  BOOT
+// ========================
+document.addEventListener('DOMContentLoaded', () => {
+    // Apply saved theme
+    setTheme(getTheme());
+
+    const savedCode = sessionStorage.getItem('ronaldo_code');
+    if (savedCode && ACCESS_CODES[savedCode]) {
+        activeAccess = ACCESS_CODES[savedCode];
+        enterDashboard();
+    } else {
+        document.getElementById('codeInput').focus();
+    }
+
+    document.getElementById('codeInput').addEventListener('keydown', (e) => { if (e.key === 'Enter') handleLogin(); });
+    document.getElementById('codeInput').addEventListener('input', (e) => {
+        e.target.value = e.target.value.replace(/[^A-Za-z0-9]/g, '').toUpperCase().slice(0, 6);
+        document.getElementById('errorMsg').textContent = '';
+        e.target.classList.remove('error', 'success');
+    });
+});
+</script>
+
+</body>
+</html>
