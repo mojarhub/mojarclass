@@ -193,7 +193,7 @@
                 <!-- ============================================= -->
                 <!-- 🔧 EDIT YOUR CUSTOM MESSAGE BELOW 🔧         -->
                 <!-- ============================================= -->
-                
+                আপনার ক্লাসে স্বাগতম! নিয়মিত ক্লাস দেখুন এবং পরীক্ষার প্রস্তুতি নিন। কোনো সমস্যা হলে শিক্ষকের সাথে যোগাযোগ করুন।
                 <!-- ============================================= -->
             </div>
             <div class="popup-warn">
@@ -353,9 +353,9 @@
 //  STUDENT DATABASE
 // ========================
 const STUDENTS = {
-    'asdf': { name: 'Irfan', subjects: 'all' },
-    '1': { name: 'Tuhin', subjects: 'all' },
-    '3': { name: 'Dummy', subjects: ['biology'] },
+    '01611507803': { name: 'Irfan', subjects: 'all' },
+    '01842478795': { name: 'Tuhin', subjects: 'all' },
+    '01511507803': { name: 'Dummy', subjects: ['biology'] },
 };
 
 // ========================
@@ -365,78 +365,196 @@ const COURSES = [
     {
         id: 'bangla1', name: 'বাংলা ১ম পত্র', icon: '📖', gradient: 'linear-gradient(135deg, #3b82f6, #6366f1)',
         topics: [
-            { id: 'prottyupokar', name: 'প্রত্যুপকার', icon: '📕', lessons: [
+            // ========== গদ্য ==========
+            { id: 'prottyupokar', name: '📖 প্রত্যুপকার', icon: '📕', lessons: [
                 { id: 'p1', title: 'প্রত্যুপকার (১)', videoId: 'x4yJlJk26rk' },
                 { id: 'p2', title: 'প্রত্যুপকার (২)', videoId: 'ANLc_Ux5HVU' },
             ]},
-            { id: 'subha', name: 'সুভা', icon: '📗', lessons: [
+            { id: 'fuler_bibaho', name: '📖 ফুলের বিবাহ', icon: '💐', lessons: [
+                { id: 'fb1', title: 'ফুলের বিবাহ (১)', videoId: '' },
+                { id: 'fb2', title: 'ফুলের বিবাহ (২)', videoId: '' },
+                { id: 'fb3', title: 'ফুলের বিবাহ (৩)', videoId: '' },
+            ]},
+            { id: 'subha', name: '📖 সুভা', icon: '📗', lessons: [
                 { id: 's1', title: 'সুভা (১)', videoId: 'qKE7nYfpPVE' },
                 { id: 's2', title: 'সুভা (২)', videoId: 'eVa744zKXzI' },
                 { id: 's3', title: 'সুভা (৩)', videoId: '79cOn0rXUlI' },
             ]},
-            { id: 'runner', name: 'রানার', icon: '🏃', lessons: [
-                { id: 'r1', title: 'রানার (১)', videoId: 'BsJUK3p2II4' },
-                { id: 'r2', title: 'রানার (২)', videoId: 'u_5yq81KeEA' },
+            { id: 'boi_pora', name: '📖 বই পড়া', icon: '📚', lessons: [
+                { id: 'bp1', title: 'বই পড়া (১)', videoId: '' },
+                { id: 'bp2', title: 'বই পড়া (২)', videoId: '' },
+                { id: 'bp3', title: 'বই পড়া (৩)', videoId: '' },
             ]},
-            { id: 'boshekh', name: 'বোশেখ', icon: '🌸', lessons: [
-                { id: 'b1', title: 'বোশেখ (১)', videoId: 'UQHhyh4egIA' },
-                { id: 'b2', title: 'বোশেখ (২)', videoId: 'OQEfRMT70Ks' },
-                { id: 'b3', title: 'বোশেখ (৩)', videoId: '5bWXf-cEI1E' },
+            { id: 'ovagir_shorgo', name: '📖 অভাগীর স্বর্গ', icon: '🏠', lessons: [
+                { id: 'os1', title: 'অভাগীর স্বর্গ (১)', videoId: '' },
+                { id: 'os2', title: 'অভাগীর স্বর্গ (২)', videoId: '' },
+                { id: 'os3', title: 'অভাগীর স্বর্গ (৩)', videoId: '' },
             ]},
-            { id: 'upekkhito', name: 'উপেক্ষিত শক্তির উদ্বোধন', icon: '💪', lessons: [
-                { id: 'u1', title: 'উপেক্ষিত শক্তির উদ্বোধন (১)', videoId: 'NF63pDq_XQs' },
+            { id: 'niriho_bangali', name: '📖 নিরীহ বাঙালি', icon: '👤', lessons: [
+                { id: 'nb1', title: 'নিরীহ বাঙালি (১)', videoId: '' },
+                { id: 'nb2', title: 'নিরীহ বাঙালি (২)', videoId: '' },
+                { id: 'nb3', title: 'নিরীহ বাঙালি (৩)', videoId: '' },
+            ]},
+            { id: 'polli_sahityo', name: '📖 পল্লি-সাহিত্য', icon: '🌾', lessons: [
+                { id: 'ps1', title: 'পল্লি-সাহিত্য (১)', videoId: '' },
+                { id: 'ps2', title: 'পল্লি-সাহিত্য (২)', videoId: '' },
+                { id: 'ps3', title: 'পল্লি-সাহিত্য (৩)', videoId: '' },
+            ]},
+            { id: 'am_atir_vepu', name: '📖 আম-আঁটির ভেঁপু', icon: '🥭', lessons: [
+                { id: 'av1', title: 'আম-আঁটির ভেঁপু (১)', videoId: '' },
+                { id: 'av2', title: 'আম-আঁটির ভেঁপু (২)', videoId: '' },
+                { id: 'av3', title: 'আম-আঁটির ভেঁপু (৩)', videoId: '' },
+            ]},
+            { id: 'manush_muhammad', name: '📖 মানুষ মুহাম্মদ (স.)', icon: '🕌', lessons: [
+                { id: 'mm1', title: 'মানুষ মুহাম্মদ (স.) (১)', videoId: '' },
+                { id: 'mm2', title: 'মানুষ মুহাম্মদ (স.) (২)', videoId: '' },
+                { id: 'mm3', title: 'মানুষ মুহাম্মদ (স.) (৩)', videoId: '' },
+            ]},
+            { id: 'nimgach', name: '📖 নিমগাছ', icon: '🌳', lessons: [
+                { id: 'ng1', title: 'নিমগাছ (১)', videoId: '' },
+                { id: 'ng2', title: 'নিমগাছ (২)', videoId: '' },
+                { id: 'ng3', title: 'নিমগাছ (৩)', videoId: '' },
+            ]},
+            { id: 'upekkhito', name: '📖 উপেক্ষিত শক্তির উদ্বোধন', icon: '💪', lessons: [
+                { id: 'u1', title: 'উপেক্ষিত শক্তির উদ্বোধন (১)', videoId: 'CkbA_ZV1yU8' },
                 { id: 'u2', title: 'উপেক্ষিত শক্তির উদ্বোধন (২)', videoId: 'tEKfFv8yeQc' },
             ]},
-            { id: 'probash', name: 'প্রবাস বন্ধু', icon: '🤝', lessons: [
+            { id: 'probash', name: '📖 প্রবাস বন্ধু', icon: '🤝', lessons: [
                 { id: 'pb1', title: 'প্রবাস বন্ধু (১)', videoId: 'HAWUeON5HBw' },
                 { id: 'pb2', title: 'প্রবাস বন্ধু (২)', videoId: 'EG1JNAe2-wM' },
                 { id: 'pb3', title: 'প্রবাস বন্ধু (৩)', videoId: 'NnJDCFIS74g' },
             ]},
-            { id: 'swadhinota', name: 'তোমাকে পাওয়ার জন্যে, হে স্বাধীনতা', icon: '🇧🇩', lessons: [
-                { id: 'sw1', title: 'তোমাকে পাওয়ার জন্যে, হে স্বাধীনতা (১)', videoId: 'BeDsNZxqhxE' },
-                { id: 'sw2', title: 'তোমাকে পাওয়ার জন্যে, হে স্বাধীনতা (২)', videoId: 'TYoh10AGjWs' },
+            { id: 'momtadi', name: '📖 মমতাদি', icon: '👩', lessons: [
+                { id: 'mt1', title: 'মমতাদি (১)', videoId: '' },
+                { id: 'mt2', title: 'মমতাদি (২)', videoId: '' },
+                { id: 'mt3', title: 'মমতাদি (৩)', videoId: '' },
             ]},
-            { id: 'ekusher', name: 'একুশের গল্প', icon: '📕', lessons: [
+            { id: 'ekusher', name: '📖 একুশের গল্প', icon: '🔴', lessons: [
                 { id: 'eg1', title: 'একুশের গল্প (১)', videoId: 'i4kr4lb6j9E' },
                 { id: 'eg2', title: 'একুশের গল্প (২)', videoId: '9F5qf6LOd6g' },
             ]},
-            { id: 'kopotakkho', name: 'কপোতাক্ষ নদ', icon: '🏞️', lessons: [
+            { id: 'notun_gourobgatha', name: '📖 আমাদের নতুন গৌরবগাথা', icon: '🏆', lessons: [
+                { id: 'gg1', title: 'আমাদের নতুন গৌরবগাথা (১)', videoId: '' },
+                { id: 'gg2', title: 'আমাদের নতুন গৌরবগাথা (২)', videoId: '' },
+                { id: 'gg3', title: 'আমাদের নতুন গৌরবগাথা (৩)', videoId: '' },
+            ]},
+            // ========== কবিতা ==========
+            { id: 'bondona', name: '📝 বন্দনা', icon: '🙏', lessons: [
+                { id: 'bn1', title: 'বন্দনা (১)', videoId: '' },
+                { id: 'bn2', title: 'বন্দনা (২)', videoId: '' },
+                { id: 'bn3', title: 'বন্দনা (৩)', videoId: '' },
+            ]},
+            { id: 'kopotakkho', name: '📝 কপোতাক্ষ নদ', icon: '🏞️', lessons: [
                 { id: 'kn1', title: 'কপোতাক্ষ নদ (১)', videoId: 'Dkd4LERvEAo' },
                 { id: 'kn2', title: 'কপোতাক্ষ নদ (২)', videoId: '714OI7sfZJg' },
                 { id: 'kn3', title: 'কপোতাক্ষ নদ (৩)', videoId: '0LlBgHh9LBU' },
+            ]},
+            { id: 'pran', name: '📝 প্রাণ', icon: '❤️', lessons: [
+                { id: 'pr1', title: 'প্রাণ (১)', videoId: '' },
+                { id: 'pr2', title: 'প্রাণ (২)', videoId: '' },
+                { id: 'pr3', title: 'প্রাণ (৩)', videoId: '' },
+            ]},
+            { id: 'ondho_bodhu', name: '📝 অন্ধবধূ', icon: '👰', lessons: [
+                { id: 'ob1', title: 'অন্ধবধূ (১)', videoId: '' },
+                { id: 'ob2', title: 'অন্ধবধূ (২)', videoId: '' },
+                { id: 'ob3', title: 'অন্ধবধূ (৩)', videoId: '' },
+            ]},
+            { id: 'jhornar_gaan', name: '📝 ঝর্ণার গান', icon: '💧', lessons: [
+                { id: 'jg1', title: 'ঝর্ণার গান (১)', videoId: '' },
+                { id: 'jg2', title: 'ঝর্ণার গান (২)', videoId: '' },
+                { id: 'jg3', title: 'ঝর্ণার গান (৩)', videoId: '' },
+            ]},
+            { id: 'jibon_binimoyo', name: '📝 জীবন-বিনিময়', icon: '🔄', lessons: [
+                { id: 'jb1', title: 'জীবন-বিনিময় (১)', videoId: '' },
+                { id: 'jb2', title: 'জীবন-বিনিময় (২)', videoId: '' },
+                { id: 'jb3', title: 'জীবন-বিনিময় (৩)', videoId: '' },
+            ]},
+            { id: 'umor_faruk', name: '📝 উমর ফারুক', icon: '⭐', lessons: [
+                { id: 'uf1', title: 'উমর ফারুক (১)', videoId: '' },
+                { id: 'uf2', title: 'উমর ফারুক (২)', videoId: '' },
+                { id: 'uf3', title: 'উমর ফারুক (৩)', videoId: '' },
+            ]},
+            { id: 'seidin_ei_math', name: '📝 সেইদিন এই মাঠ', icon: '🌿', lessons: [
+                { id: 'sm1', title: 'সেইদিন এই মাঠ (১)', videoId: '' },
+                { id: 'sm2', title: 'সেইদিন এই মাঠ (২)', videoId: '' },
+                { id: 'sm3', title: 'সেইদিন এই মাঠ (৩)', videoId: '' },
+            ]},
+            { id: 'jabo_ami', name: '📝 যাব আমি তোমার দেশে', icon: '✈️', lessons: [
+                { id: 'ja1', title: 'যাব আমি তোমার দেশে (১)', videoId: '' },
+                { id: 'ja2', title: 'যাব আমি তোমার দেশে (২)', videoId: '' },
+                { id: 'ja3', title: 'যাব আমি তোমার দেশে (৩)', videoId: '' },
+            ]},
+            { id: 'amar_desh', name: '📝 আমার দেশ', icon: '🇧🇩', lessons: [
+                { id: 'ad1', title: 'আমার দেশ (১)', videoId: '' },
+                { id: 'ad2', title: 'আমার দেশ (২)', videoId: '' },
+                { id: 'ad3', title: 'আমার দেশ (৩)', videoId: '' },
+            ]},
+            { id: 'brishti', name: '📝 বৃষ্টি', icon: '🌧️', lessons: [
+                { id: 'br1', title: 'বৃষ্টি (১)', videoId: '' },
+                { id: 'br2', title: 'বৃষ্টি (২)', videoId: '' },
+                { id: 'br3', title: 'বৃষ্টি (৩)', videoId: '' },
+            ]},
+            { id: 'ami_kono_agontuk', name: '📝 আমি কোনো আগন্তুক নই', icon: '🚶', lessons: [
+                { id: 'ak1', title: 'আমি কোনো আগন্তুক নই (১)', videoId: '' },
+                { id: 'ak2', title: 'আমি কোনো আগন্তুক নই (২)', videoId: '' },
+                { id: 'ak3', title: 'আমি কোনো আগন্তুক নই (৩)', videoId: '' },
+            ]},
+            { id: 'runner', name: '📝 রানার', icon: '🏃', lessons: [
+                { id: 'r1', title: 'রানার (১)', videoId: 'BsJUK3p2II4' },
+                { id: 'r2', title: 'রানার (২)', videoId: 'u_5yq81KeEA' },
+            ]},
+            { id: 'swadhinota', name: '📝 তোমাকে পাওয়ার জন্যে, হে স্বাধীনতা', icon: '🗽', lessons: [
+                { id: 'sw1', title: 'তোমাকে পাওয়ার জন্যে, হে স্বাধীনতা (১)', videoId: 'BeDsNZxqhxE' },
+                { id: 'sw2', title: 'তোমাকে পাওয়ার জন্যে, হে স্বাধীনতা (২)', videoId: 'TYoh10AGjWs' },
+            ]},
+            { id: 'boishakh', name: '📝 বৈশাখ', icon: '🌸', lessons: [
+                { id: 'b1', title: 'বৈশাখ (১)', videoId: 'UQHhyh4egIA' },
+                { id: 'b2', title: 'বৈশাখ (২)', videoId: 'OQEfRMT70Ks' },
+                { id: 'b3', title: 'বৈশাখ (৩)', videoId: '5bWXf-cEI1E' },
+            ]},
+            // ========== সহপাঠ ==========
+            { id: 'unnoshottor', name: '📚 ১৯৭১ (উপন্যাস)', icon: '📖', lessons: [
+                { id: 'un1', title: '১৯৭১ (১)', videoId: '' },
+                { id: 'un2', title: '১৯৭১ (২)', videoId: '' },
+                { id: 'un3', title: '১৯৭১ (৩)', videoId: '' },
+            ]},
+            { id: 'bohipir', name: '📚 বহিপীর (নাটক)', icon: '🎭', lessons: [
+                { id: 'bh1', title: 'বহিপীর (১)', videoId: '' },
+                { id: 'bh2', title: 'বহিপীর (২)', videoId: '' },
+                { id: 'bh3', title: 'বহিপীর (৩)', videoId: '' },
             ]},
         ]
     },
     {
         id: 'bangla2', name: 'বাংলা ২য় পত্র', icon: '✏️', gradient: 'linear-gradient(135deg, #8b5cf6, #a855f7)',
         topics: [
-            { id: 'porichhed_1_3', name: 'পরিচ্ছেদ ১-৩: ভাষা, ব্যাকরণ ও ভাষার রীতি', icon: '📝', lessons: [
-                { id: 'pc1', title: 'পরিচ্ছেদ ১ — ভাষা ও বাংলা ভাষা', videoId: 'uB4Ng8heU20' },
-                { id: 'pc2', title: 'পরিচ্ছেদ ২-৩ — ব্যাকরণ ও ভাষার রীতি', videoId: '3mExSQUxVEQ' },
+            { id: 'pc_1_3', name: 'পরিচ্ছেদ ১-৩: ভাষা, ব্যাকরণ ও রীতি', icon: '🗣️', lessons: [
+                { id: 'pc1a', title: 'ভাষা ও বাংলা ভাষা', videoId: 'uB4Ng8heU20' },
+                { id: 'pc1b', title: 'ব্যাকরণ ও ভাষার রীতি', videoId: '3mExSQUxVEQ' },
             ]},
-            { id: 'porichhed_4', name: 'পরিচ্ছেদ ৪: বাগযন্ত্র', icon: '🗣️', lessons: [
-                { id: 'pc4', title: 'পরিচ্ছেদ ৪ — বাগযন্ত্র', videoId: 'w4N1l_tTmiU' },
+            { id: 'pc04', name: 'পরিচ্ছেদ ৪: বাগ্যন্ত্র', icon: '🗣️', lessons: [
+                { id: 'pc04a', title: 'বাগ্যন্ত্র', videoId: 'w4N1l_tTmiU' },
             ]},
-            { id: 'porichhed_35', name: 'পরিচ্ছেদ ৩৫: কারক', icon: '📐', lessons: [
-                { id: 'k1', title: 'কারক (১)', videoId: 'JiJz0WjWIJU' },
-                { id: 'k2', title: 'কারক (২)', videoId: 'EzJ9hGtcc6g' },
+            { id: 'pc35', name: 'পরিচ্ছেদ ৩৫: কারক', icon: '📐', lessons: [
+                { id: 'pc35a', title: 'কারক (১)', videoId: 'JiJz0WjWIJU' },
+                { id: 'pc35b', title: 'কারক (২)', videoId: 'EzJ9hGtcc6g' },
             ]},
-            { id: 'porichhed_36', name: 'পরিচ্ছেদ ৩৬: বাচ্য', icon: '💬', lessons: [
-                { id: 'bc1', title: 'বাচ্য (১)', videoId: 'HBccM8YyGhI' },
-                { id: 'bc2', title: 'বাচ্য (২)', videoId: 'dByXi6QPKGY' },
+            { id: 'pc36', name: 'পরিচ্ছেদ ৩৬: বাচ্য', icon: '💬', lessons: [
+                { id: 'pc36a', title: 'বাচ্য (১)', videoId: 'HBccM8YyGhI' },
+                { id: 'pc36b', title: 'বাচ্য (২)', videoId: 'dByXi6QPKGY' },
             ]},
-            { id: 'porichhed_38', name: 'পরিচ্ছেদ ৩৮: যতিচিহ্ন', icon: '✍️', lessons: [
-                { id: 'jt1', title: 'যতিচিহ্ন', videoId: 'z4TiTGmZisA' },
+            { id: 'pc38', name: 'পরিচ্ছেদ ৩৮: যতিচিহ্ন', icon: '✍️', lessons: [
+                { id: 'pc38a', title: 'যতিচিহ্ন', videoId: 'z4TiTGmZisA' },
             ]},
-            { id: 'porichhed_39', name: 'পরিচ্ছেদ ৩৯: বাগর্থের শ্রেণি', icon: '📚', lessons: [
-                { id: 'bg1', title: 'বাগর্থের শ্রেণি', videoId: '-r742WizXTw' },
+            { id: 'pc39', name: 'পরিচ্ছেদ ৩৯: বাগর্থের শ্রেণি', icon: '📚', lessons: [
+                { id: 'pc39a', title: 'বাগর্থের শ্রেণি', videoId: '-r742WizXTw' },
             ]},
         ]
     },
     {
         id: 'bgs', name: 'বাংলাদেশ ও বিশ্বপরিচয়', icon: '🌏', gradient: 'linear-gradient(135deg, #10b981, #059669)',
         topics: [
-            { id: 'bgs_ch5', name: 'অধ্যায় ৫: নদ-নদী ও প্রাকৃতিক সম্পদ', icon: '  ️', lessons: [
+            { id: 'bgs_ch5', name: 'অধ্যায় ৫: নদ-নদী ও প্রাকৃতিক সম্পদ', icon: '🏞️', lessons: [
                 { id: 'nd1', title: 'নদ-নদী ও প্রাকৃতিক সম্পদ (১)', videoId: 'jR3dmuWkacc' },
                 { id: 'nd2', title: 'নদ-নদী ও প্রাকৃতিক সম্পদ (২)', videoId: 'kD7xavvFpWk' },
                 { id: 'nd3', title: 'নদ-নদী ও প্রাকৃতিক সম্পদ (৩)', videoId: 'IZgNdayctQk' },
@@ -787,8 +905,9 @@ function openSubject(subjectId) {
             <div class="space-y-1.5">
                 ${t.lessons.slice(0, 3).map((l, li) => {
                     const watched = isWatched(currentSubject.id, t.id, li);
+                    const hasVid = !!l.videoId;
                     return `<div class="flex items-center gap-2 text-xs" style="color:var(--text-muted)">
-                        <span class="shrink-0">${watched ? '✅' : '⏳'}</span>
+                        <span class="shrink-0">${!hasVid ? '🔒' : watched ? '✅' : '⏳'}</span>
                         <span class="truncate">${l.title}</span>
                     </div>`;
                 }).join('')}
@@ -828,18 +947,19 @@ function renderPlaylist() {
 
     document.getElementById('playlistItems').innerHTML = currentTopic.lessons.map((l, i) => {
         const watched = isWatched(currentSubject.id, currentTopic.id, i);
+        const hasVideo = !!l.videoId;
         return `
         <div class="lesson-card flex items-center gap-3 px-4 py-3 ${i === currentLessonIndex ? 'now-playing' : ''}"
-             style="border-bottom:1px solid var(--border-primary)"
+             style="border-bottom:1px solid var(--border-primary); ${!hasVideo ? 'opacity:0.5;' : ''}"
              onclick="playLesson(${i})" data-index="${i}">
             <div class="w-7 h-7 rounded-full flex items-center justify-center shrink-0 text-xs font-bold
-                ${i === currentLessonIndex ? 'bg-sky-500 text-white' : watched ? 'bg-green-500/20 text-green-500' : 'text-slate-400'}"
+                ${!hasVideo ? 'text-slate-400' : i === currentLessonIndex ? 'bg-sky-500 text-white' : watched ? 'bg-green-500/20 text-green-500' : 'text-slate-400'}"
                 style="${i !== currentLessonIndex && !watched ? 'background:var(--bg-overlay)' : ''}">
-                ${i === currentLessonIndex ? '▶' : watched ? '✓' : i + 1}
+                ${!hasVideo ? '🔒' : i === currentLessonIndex ? '▶' : watched ? '✓' : i + 1}
             </div>
             <div class="min-w-0 flex-1">
                 <div class="text-sm font-medium truncate ${i === currentLessonIndex ? 'text-sky-500' : ''}">${l.title}</div>
-                ${watched ? '<div class="text-xs text-green-500">দেখা হয়েছে ✓</div>' : ''}
+                ${!hasVideo ? '<div class="text-xs text-amber-500">শীঘ্রই আসছে</div>' : watched ? '<div class="text-xs text-green-500">দেখা হয়েছে ✓</div>' : ''}
             </div>
         </div>`;
     }).join('');
@@ -857,9 +977,29 @@ function playLesson(index) {
     const timeLabel = document.getElementById('timeLabel'); if (timeLabel) timeLabel.textContent = '0:00 / 0:00';
     clearTimeout(window.__watchTimeout);
 
-    // Remove any previous error
+    // Remove any previous error/coming soon
     const oldErr = document.getElementById('videoError');
     if (oldErr) oldErr.remove();
+    const oldComing = document.getElementById('comingSoonMsg');
+    if (oldComing) oldComing.remove();
+
+    // If no video ID, show coming soon message
+    if (!lesson.videoId) {
+        if (bigPlay) bigPlay.style.display = 'none';
+        destroyPlayer();
+        const wrapper = document.querySelector('.video-wrapper');
+        const msg = document.createElement('div');
+        msg.id = 'comingSoonMsg';
+        msg.style.cssText = 'position:absolute;inset:0;display:flex;flex-direction:column;align-items:center;justify-content:center;background:var(--bg-secondary);border-radius:12px;z-index:50;';
+        msg.innerHTML = `
+            <div style="font-size:48px;margin-bottom:12px;">🎬</div>
+            <div style="font-size:18px;font-weight:700;color:var(--text-primary);margin-bottom:8px;">শীঘ্রই আসছে!</div>
+            <div style="font-size:14px;color:var(--text-muted);">এই পাঠের ভিডিও শীঘ্রই আপলোড হবে</div>
+        `;
+        wrapper.appendChild(msg);
+        renderPlaylist();
+        return;
+    }
 
     const startSeconds = lesson.start || 0;
     ensureYTPlayer().then(() => {
