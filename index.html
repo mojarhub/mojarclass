@@ -347,7 +347,7 @@
 const STUDENTS = {
     'd': { name: 'Irfan', subjects: 'all' },
     'asdf': { name: 'Tuhin', subjects: 'all' },
-    '01511507803': { name: 'Dummy', subjects: ['biology'] },
+    '69': { name: 'Dummy', subjects: ['biology'] },
 };
 
 // ========================
@@ -806,8 +806,14 @@ function logout() {
 //  NAVIGATION
 // ========================
 function showView(id) {
-    ['viewHome', 'viewTopics', 'viewVideo'].forEach(v => { const el = document.getElementById(v); el.classList.remove('active'); });
-    setTimeout(() => { document.getElementById(id).classList.add('active'); }, 50);
+    ['viewHome', 'viewTopics', 'viewVideo'].forEach(v => {
+        const el = document.getElementById(v);
+        el.classList.remove('active');
+        if (v !== id) el.style.display = 'none';
+    });
+    const target = document.getElementById(id);
+    target.style.display = '';
+    target.classList.add('active');
     window.scrollTo({ top: 0, behavior: 'smooth' });
 }
 function updateBreadcrumb(items) {
