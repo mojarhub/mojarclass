@@ -1,1 +1,342 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Quantum Weather Satellite v4.0</title>
+    <style>
+        :root {
+            --primary: #00d2ff;
+            --secondary: #3a7bd5;
+            --danger: #ff4b2b;
+            --bg: #050a10;
+            --card-bg: rgba(10, 20, 30, 0.4);
+        }
 
+        * {
+            box-sizing: border-box;
+            user-select: none;
+        }
+
+        body {
+            background-color: var(--bg);
+            color: white;
+            font-family: 'Segoe UI', Roboto, -apple-system, sans-serif;
+            margin: 0;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            height: 100vh;
+            overflow: hidden;
+        }
+
+        /* --- ADVANCED WEATHER BACKGROUND --- */
+        .weather-bg {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            z-index: -1;
+            background: linear-gradient(to bottom, #050a10 0%, #102030 100%);
+            overflow: hidden;
+        }
+
+        /* Sun Animation */
+        .sun {
+            position: absolute;
+            top: 10%;
+            right: 10%;
+            width: 80px;
+            height: 80px;
+            background: radial-gradient(circle, #ffd200 0%, #f7971e 100%);
+            border-radius: 50%;
+            box-shadow: 0 0 60px rgba(247, 151, 30, 0.4);
+            animation: pulse-sun 4s infinite alternate;
+        }
+
+        @keyframes pulse-sun {
+            from { transform: scale(1); opacity: 0.6; }
+            to { transform: scale(1.1); opacity: 0.9; }
+        }
+
+        /* Clouds */
+        .cloud {
+            position: absolute;
+            width: 150px;
+            height: 50px;
+            background: rgba(255, 255, 255, 0.1);
+            border-radius: 50px;
+            filter: blur(10px);
+            animation: float-cloud linear infinite;
+        }
+
+        .cloud::before, .cloud::after {
+            content: '';
+            position: absolute;
+            background: inherit;
+            border-radius: 50%;
+        }
+
+        .cloud::before { width: 70px; height: 70px; top: -35px; left: 20px; }
+        .cloud::after { width: 50px; height: 50px; top: -25px; left: 70px; }
+
+        @keyframes float-cloud {
+            from { transform: translateX(-200px); }
+            to { transform: translateX(110vw); }
+        }
+
+        /* Rain */
+        .rain-drop {
+            position: absolute;
+            background: rgba(0, 210, 255, 0.3);
+            width: 1px;
+            height: 15px;
+            top: -20px;
+            animation: fall linear infinite;
+        }
+
+        @keyframes fall {
+            to { transform: translateY(110vh); }
+        }
+
+        /* --- MAIN UI --- */
+        #app-card {
+            background: var(--card-bg);
+            backdrop-filter: blur(20px);
+            -webkit-backdrop-filter: blur(20px);
+            border: 1px solid rgba(255, 255, 255, 0.1);
+            border-radius: 28px;
+            padding: 40px;
+            width: 90%;
+            max-width: 450px;
+            text-align: center;
+            box-shadow: 0 25px 50px rgba(0, 0, 0, 0.6);
+            transition: all 0.5s ease;
+            position: relative;
+            z-index: 10;
+        }
+
+        h1 {
+            font-size: 1.6rem;
+            font-weight: 300;
+            letter-spacing: 3px;
+            margin-bottom: 30px;
+            background: linear-gradient(to right, #00d2ff, #92fe9d);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+        }
+
+        .btn-glow {
+            position: relative;
+            background: linear-gradient(45deg, var(--primary), var(--secondary));
+            border: none;
+            color: white;
+            padding: 18px 45px;
+            font-size: 16px;
+            font-weight: 700;
+            border-radius: 14px;
+            cursor: pointer;
+            transition: 0.3s;
+            box-shadow: 0 8px 15px rgba(0, 210, 255, 0.2);
+            text-transform: uppercase;
+            letter-spacing: 1px;
+        }
+
+        .btn-glow:hover {
+            transform: scale(1.05) translateY(-2px);
+            box-shadow: 0 12px 25px rgba(0, 210, 255, 0.4);
+        }
+
+        .loading-wrap {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            padding: 20px 0;
+        }
+
+        .radar {
+            width: 90px;
+            height: 90px;
+            border-radius: 50%;
+            border: 1px solid rgba(0, 210, 255, 0.3);
+            position: relative;
+            margin-bottom: 25px;
+            background: radial-gradient(circle, rgba(0,210,255,0.05) 0%, transparent 70%);
+        }
+
+        .radar::after {
+            content: '';
+            position: absolute;
+            top: 0; left: 0; width: 100%; height: 100%;
+            background: conic-gradient(from 0deg, var(--primary), transparent 90deg);
+            border-radius: 50%;
+            animation: sweep 2s infinite linear;
+            opacity: 0.6;
+        }
+
+        @keyframes sweep {
+            from { transform: rotate(0deg); }
+            to { transform: rotate(360deg); }
+        }
+
+        .terminal-text {
+            font-family: 'Consolas', monospace;
+            font-size: 13px;
+            color: #00ff41;
+            text-shadow: 0 0 5px rgba(0, 255, 65, 0.5);
+        }
+
+        #punchline {
+            font-size: 34px;
+            font-weight: 900;
+            color: var(--danger);
+            text-shadow: 0 0 20px rgba(255, 75, 43, 0.6);
+            animation: glitch 0.3s infinite;
+            margin: 20px 0;
+        }
+
+        @keyframes glitch {
+            0% { transform: translate(0); }
+            20% { transform: translate(-2px, 2px); }
+            40% { transform: translate(-2px, -2px); }
+            60% { transform: translate(2px, 2px); }
+            80% { transform: translate(2px, -2px); }
+            100% { transform: translate(0); }
+        }
+
+        .hidden { display: none !important; }
+
+        .back-btn {
+            background: rgba(255, 255, 255, 0.05);
+            border: 1px solid rgba(255, 255, 255, 0.2);
+            color: #aaa;
+            padding: 10px 25px;
+            border-radius: 8px;
+            cursor: pointer;
+            margin-top: 25px;
+            transition: 0.3s;
+        }
+
+        .back-btn:hover {
+            background: rgba(255, 255, 255, 0.1);
+            color: white;
+        }
+    </style>
+</head>
+<body>
+
+    <div class="weather-bg" id="weather-bg">
+        <div class="sun"></div>
+    </div>
+
+    <div id="app-card">
+        <div id="screen-start">
+            <h1>QUANTUM WEATHER</h1>
+            <p style="color: #6a89cc; margin-bottom: 35px; font-size: 0.9rem;">Multi-Spectral Satellite Link v5.2</p>
+            <button class="btn-glow" onclick="initiateScan()">Access Live Feed</button>
+        </div>
+
+        <div id="screen-scan" class="hidden">
+            <div class="loading-wrap">
+                <div class="radar"></div>
+                <div class="terminal-text" id="log">Synchronizing...</div>
+            </div>
+        </div>
+
+        <div id="screen-result" class="hidden">
+            <p style="color: #6a89cc; margin-bottom: 10px; letter-spacing: 1px;">SATELLITE DOWNLINK COMPLETE:</p>
+            <div id="punchline">BAHIRE JAI DEKH BOKACHODA</div>
+            <button class="back-btn" onclick="resetApp()">Disconnect</button>
+        </div>
+    </div>
+
+    <script>
+        const bg = document.getElementById('weather-bg');
+        
+        // Audio Synthesis Setup
+        const audioCtx = new (window.AudioContext || window.webkitAudioContext)();
+
+        function playBeep(frequency, duration, volume, type = 'sine') {
+            const oscillator = audioCtx.createOscillator();
+            const gainNode = audioCtx.createGain();
+
+            oscillator.type = type;
+            oscillator.frequency.setValueAtTime(frequency, audioCtx.currentTime);
+            gainNode.gain.setValueAtTime(volume, audioCtx.currentTime);
+            gainNode.gain.exponentialRampToValueAtTime(0.01, audioCtx.currentTime + duration);
+
+            oscillator.connect(gainNode);
+            gainNode.connect(audioCtx.destination);
+
+            oscillator.start();
+            oscillator.stop(audioCtx.currentTime + duration);
+        }
+
+        // Create Clouds
+        for (let i = 0; i < 6; i++) {
+            const cloud = document.createElement('div');
+            cloud.className = 'cloud';
+            cloud.style.top = Math.random() * 60 + '%';
+            cloud.style.animationDuration = (Math.random() * 30 + 30) + 's';
+            cloud.style.animationDelay = (Math.random() * -60) + 's';
+            cloud.style.opacity = Math.random() * 0.4 + 0.1;
+            bg.appendChild(cloud);
+        }
+
+        // Create Rain
+        for (let i = 0; i < 40; i++) {
+            const drop = document.createElement('div');
+            drop.className = 'rain-drop';
+            drop.style.left = Math.random() * 100 + '%';
+            drop.style.animationDuration = (Math.random() * 0.5 + 0.5) + 's';
+            drop.style.animationDelay = Math.random() * 2 + 's';
+            bg.appendChild(drop);
+        }
+
+        const logs = [
+            "Pinging [SAMSUNG-S19F] link...",
+            "Overriding Doppler firewall...",
+            "Capturing real-time light data...",
+            "Decoding local humidity...",
+            "Finalizing visuals..."
+        ];
+
+        function initiateScan() {
+            // Resume audio context for browsers that block auto-play
+            if (audioCtx.state === 'suspended') {
+                audioCtx.resume();
+            }
+
+            document.getElementById('screen-start').classList.add('hidden');
+            document.getElementById('screen-scan').classList.remove('hidden');
+            
+            let i = 0;
+            const logEl = document.getElementById('log');
+            
+            const logInterval = setInterval(() => {
+                if (i < logs.length) {
+                    logEl.innerText = logs[i];
+                    // High pitched digital ping
+                    playBeep(880, 0.1, 0.05, 'square');
+                    i++;
+                }
+            }, 800);
+
+            setTimeout(() => {
+                clearInterval(logInterval);
+                document.getElementById('screen-scan').classList.add('hidden');
+                document.getElementById('screen-result').classList.remove('hidden');
+                // Aggressive error beep
+                playBeep(150, 0.5, 0.2, 'sawtooth');
+                setTimeout(() => playBeep(100, 0.5, 0.2, 'sawtooth'), 150);
+            }, 4500);
+        }
+
+        function resetApp() {
+            document.getElementById('screen-result').classList.add('hidden');
+            document.getElementById('screen-start').classList.remove('hidden');
+        }
+    </script>
+</body>
+</html>
